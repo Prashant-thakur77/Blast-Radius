@@ -7,10 +7,10 @@ How we use Bob in the product:
 - **Custom mode.** `.bob/custom_modes.yaml` defines BlastRadius Reviewer. It has read, MCP, skill, subagent, todo and execute tool groups. Edits are limited by a file regex to regression tests, review reports and fixes the human has approved.
 - **Mode rules.** `.bob/rules-blast-radius-reviewer/01-review-protocol.md` sets evidence rules (every claim cites a file:line, an ADR line or a test result), stop conditions (score of 70 or more, or any missed caller), the subagent brief and the report format.
 - **Skill.** `.bob/skills/blast-radius-review/SKILL.md` is the nine-step review procedure, reusable from any mode.
-- **Subagents and parallel tasks.** For each risky subsystem Bob spawns a general subagent. Each one writes one vitest regression test with our harness and runs it through the MCP run_tests tool. On the hero PR, the comments subagent's test fails on the branch and passes after the fix Bob proposed and the human approved.
+- **Subagents and parallel tasks.** For each risky subsystem Bob spawns a general subagent. Each one writes one vitest regression test with our harness and runs it. In our recorded session on the hero PR, Bob stopped at risk 95, sent three subagents (workspace, tasks, comments) that wrote 7 tests, and 2 failed. Bob applied the fixes after approval, and all 5 affected tests passed. That review cost 3.24 Bobcoins.
 - **Document understanding.** Bob reads the team's ADRs (`pulse/docs/adr/`) and the architecture doc. It judges each rule as violated, respected or not applicable, citing the file and line. That is how it catches that the new archive route breaks ADR-002.
 - **/init and AGENTS.md.** Bob wrote the project's AGENTS.md.
-- **/review.** Bob reviewed the BlastRadius repo itself.
+- **Code review.** Bob reviewed our engine for bugs and edge cases, each with a line number and a suggested fix, and wrote the PR description for the hackathon work.
 - **Bob Shell.** `.github/workflows/blastradius.yml` runs the CLI gate, then `bob run` with the same skill to write the review in CI.
 - **.bobignore** keeps .env files, databases and node_modules out of Bob's reads.
 
