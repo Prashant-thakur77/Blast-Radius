@@ -1,0 +1,13 @@
+# Secrets and local state Bob should never read
+.env
+.env.*
+!.env.example
+**/*.db
+**/*.db-*
+**/sqlite.db*
+# Heavy or generated folders
+**/node_modules/
+**/.next/
+**/.venv/
+blastradius/backend/data/
+video/build/

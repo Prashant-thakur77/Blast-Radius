@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "blastradius": {
+      "command": "/home/prashant/blastradius/blastradius/backend/.venv/bin/python",
+      "args": ["-m", "app.mcp_server"],
+      "cwd": "/home/prashant/blastradius/blastradius/backend",
+      "env": {
+        "BLASTRADIUS_REPO": "/home/prashant/blastradius/demo-workspace/pulse"
+      },
+      "alwaysAllow": [
+        "analyze_pr",
+        "get_dependents",
+        "get_subsystem",
+        "find_untested",
+        "check_docs",
+        "build_graph",
+        "summarize_review",
+        "run_tests"
+      ],
+      "timeout": 300,
+      "disabled": false
+    }
+  }
+}
