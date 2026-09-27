@@ -1,0 +1,57 @@
+[
+ {
+  "id": "s1",
+  "scene": "problem",
+  "text": "This pull request passed CI. It got two approvals. And it just locked real users out of their own workspace."
+ },
+ {
+  "id": "s2",
+  "scene": "diff",
+  "text": "Reviewers read the diff. Nineteen tidy files. But the damage lives in the callers the diff never shows. One function has eighteen call sites. This pull request updated seventeen."
+ },
+ {
+  "id": "s3",
+  "scene": "title",
+  "text": "This is BlastRadius. It maps everything a pull request can break, and hands that map to IBM Bob."
+ },
+ {
+  "id": "s4",
+  "scene": "how",
+  "text": "BlastRadius parses the repo into a code graph in under a second, and serves it to Bob through an MCP server. Bob reviews in a custom BlastRadius Reviewer mode. It reads the team's architecture decisions, sends a subagent into each affected subsystem, and writes regression tests. Then it runs them. Granite on watsonx writes the summary."
+ },
+ {
+  "id": "s5a",
+  "scene": "pr1",
+  "text": "First, a copy change on the dashboard. Risk six. One subsystem. Bob approves it in one pass."
+ },
+ {
+  "id": "s5b",
+  "scene": "pr2",
+  "text": "Next, three lines in the session check. It looks harmless, but twenty four callers depend on it, across thirteen subsystems. Risk seventy. Bob reads A D R three, and warns that every signed-in user gets logged out at once. It lists the flows to test before release."
+ },
+ {
+  "id": "s5c",
+  "scene": "pr3",
+  "text": "Now the hero. Task archiving, plus a small refactor. BlastRadius scores it ninety five, and flags one caller still passing its arguments in the old order. TypeScript can't see it, because both arguments are strings. Bob's protocol says stop here, so it shows the human what it found before it touches anything."
+ },
+ {
+  "id": "s5d",
+  "scene": "tests",
+  "text": "Then Bob sends three subagents in parallel, one each for comments, workspace, and tasks. The comments subagent writes a test, and it fails. A real member gets a four oh three. The tasks subagent finds that the new archive route skips the activity log, which breaks A D R two. Bob proposes both fixes. You approve them, and the tests pass."
+ },
+ {
+  "id": "s5e",
+  "scene": "cli",
+  "text": "The same engine runs on the command line and in CI. One command prints the score, every reason behind it, and the missed caller with its file and line. It exits with code two, so the merge waits for a human."
+ },
+ {
+  "id": "s6",
+  "scene": "proof",
+  "text": "Across three seeded pull requests, the diffs showed twenty one files. The blast radius covered fifty six. Bob caught both hidden bugs, with executed tests as proof."
+ },
+ {
+  "id": "s7",
+  "scene": "close",
+  "text": "BlastRadius runs in Bob IDE, on the command line, and in CI with Bob Shell. Review the blast radius, not the diff."
+ }
+]

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlastRadius video scenes</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site/styles.css">
+<style>
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--cream); }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .big-serif { font: 400 118px/1 var(--serif); letter-spacing: -.025em; margin: 0; }
+  .big-serif em { font-style: italic; }
+  .mid-serif { font: 400 76px/1.05 var(--serif); letter-spacing: -.02em; margin: 0; }
+  .mid-serif em { font-style: italic; }
+  .kicker { font: 500 22px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-70); margin-bottom: 28px; }
+  .fade { transition: none; }
+  canvas.full { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+  .labels { position: absolute; inset: 0; pointer-events: none; }
+  #c-problem, #l-problem { left: 600px; width: 1320px; right: auto; }
+  .lbl { font-size: 20px; padding: 10px 16px; }
+  .lbl small { font-size: 15px; }
+  /* problem */
+  .p-lines { position: absolute; left: 110px; bottom: 120px; display: grid; gap: 18px; }
+  .p-line { font: 400 64px/1.05 var(--serif); display: flex; align-items: center; gap: 22px; opacity: 0; }
+  .p-line .chip { font: 600 22px/1 var(--sans); padding: 12px 18px; border-radius: 999px; background: var(--teal); color: var(--cream); }
+  .p-line .chip.red { background: var(--red); }
+  /* diff */
+  .diff-wrap { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; padding: 96px 110px; }
+  .diff-card { background: var(--cream-2); border: 2px solid var(--sand); border-radius: 24px; padding: 28px 30px; overflow: hidden; }
+  .diff-card h3 { font: 600 24px/1.2 var(--sans); margin: 0 0 18px; display: flex; justify-content: space-between; }
+  .diff-card h3 span { font-weight: 500; color: var(--muted); }
+  .row { font: 17px/1.25 var(--mono); padding: 8px 0; border-bottom: 1px solid var(--sand); display: flex; gap: 12px; align-items: center; opacity: 0; white-space: nowrap; }
+  .row .ok { color: #1D7A3A; font-weight: 700; }
+  .row .bad { color: var(--red); font-weight: 700; }
+  .row.miss { background: #FFE9E4; color: var(--red); border-radius: 8px; padding: 10px 10px; font-weight: 600; }
+  .diff-head { position: absolute; left: 110px; right: 110px; top: 34px; font: 400 44px/1.1 var(--serif); }
+  /* title */
+  .teal-bg { background: var(--teal); color: var(--cream); }
+  .logo-rings { width: 220px; height: 220px; margin-bottom: 36px; }
+  /* how */
+  .flow { position: absolute; left: 90px; right: 90px; top: 250px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; align-items: stretch; }
+  .node { background: var(--cream-2); border: 2px solid var(--sand); border-radius: 22px; padding: 22px 20px; opacity: .18; transform: translateY(14px); }
+  .node.on { opacity: 1; transform: none; border-color: var(--ink); }
+  .node .k { font: 600 14px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+  .node h4 { font: 400 34px/1.05 var(--serif); margin: 14px 0 10px; }
+  .node p { font: 17px/1.4 var(--sans); margin: 0; color: var(--ink-70); }
+  .node.bob { background: var(--lav); }
+  .subs { display: grid; gap: 10px; margin-top: 12px; }
+  .subs span { font: 600 15px/1 var(--sans); background: var(--pink); border-radius: 999px; padding: 9px 12px; }
+  .how-title { position: absolute; left: 90px; top: 90px; }
+  .how-foot { position: absolute; left: 90px; right: 90px; bottom: 90px; display: flex; gap: 14px; }
+  .how-foot .chip { font: 600 20px/1 var(--sans); padding: 14px 20px; }
+  /* pr scenes */
+  .pr-grid { position: absolute; inset: 0; display: grid; grid-template-columns: 1.25fr 1fr; }
+  .pr-left { position: relative; }
+  .pr-right { padding: 70px 80px 60px 10px; display: flex; flex-direction: column; gap: 18px; }
+  .pr-right .eyebrow { font-family: var(--mono); text-transform: none; letter-spacing: .02em; font-size: 20px; margin: 0; }
+  .pr-right .title { font: 400 56px/1.02 var(--serif); margin: 0; }
+  .pr-right .card { padding: 26px; }
+  .pr-right .score-num { font-size: 120px; }
+  .pr-right .factor { grid-template-columns: 150px 1fr 60px; font-size: 18px; }
+  .pr-right .factor .why { font-size: 15px; }
+  .pr-right .finding pre { font-size: 17px; }
+  .pr-right .finding h3 { font-size: 22px; }
+  .pr-right .finding p { font-size: 17px; }
+  .pill-big { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%); font-size: 24px; padding: 16px 26px; white-space: nowrap; }
+  /* tests */
+  .term-big { position: absolute; left: 140px; right: 140px; top: 170px; max-width: none; margin: 0; }
+  .term-big pre { font-size: 25px; line-height: 1.7; min-height: 560px; white-space: pre-wrap; }
+  .term-big .term-bar { font-size: 18px; padding: 16px 20px; }
+  .tline { opacity: 0; display: block; }
+  /* proof */
+  .nums { display: flex; gap: 120px; align-items: flex-end; justify-content: center; margin-top: 30px; }
+  .num { text-align: center; }
+  .num b { display: block; font: 400 260px/.9 var(--serif); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .num span { font: 500 28px/1.2 var(--sans); color: var(--ink-70); }
+  .num.hot b { color: var(--red); }
+  .proof-rows { display: grid; grid-template-columns: repeat(3, 420px); gap: 22px; margin-top: 70px; }
+  .proof-rows .card { text-align: left; padding: 22px 26px; }
+  .proof-rows h5 { font: 600 20px/1.2 var(--sans); margin: 0 0 8px; }
+  .proof-rows p { font: 18px/1.4 var(--sans); margin: 0; color: var(--ink-70); }
+  .caption-bar { position: absolute; left: 0; right: 0; bottom: 0; }
+</style>
+</head>
+<body>
+
+<section class="scene" id="problem">
+  <canvas class="full" id="c-problem"></canvas>
+  <div class="labels" id="l-problem"></div>
+  <div class="p-lines">
+    <div class="p-line" data-at="0">This pull request passed CI. <span class="chip">✓ checks passed</span></div>
+    <div class="p-line" data-at="0.3">It got two approvals. <span class="chip">✓ approved ×2</span></div>
+    <div class="p-line" data-at="0.55">It locked real users out. <span class="chip red">403 for members</span></div>
+  </div>
+</section>
+
+<section class="scene" id="diff">
+  <div class="diff-head">The diff shows nineteen tidy files. <em>It can’t show the caller it missed.</em></div>
+  <div class="diff-wrap" style="top:60px">
+    <div class="diff-card"><h3>Files changed <span>19 files · +68 −18</span></h3><div id="diff-files"></div></div>
+    <div class="diff-card"><h3>Callers of getWorkspaceMember <span>18 call sites</span></h3><div id="diff-callers"></div></div>
+  </div>
+</section>
+
+<section class="scene teal-bg center" id="title">
+  <svg class="logo-rings" viewBox="0 0 100 100" aria-hidden="true">
+    <circle id="ring-a" cx="50" cy="50" r="44" fill="none" stroke="#FFFFEB" stroke-width="3"/>
+    <circle id="ring-b" cx="50" cy="50" r="26" fill="none" stroke="#FF6C4C" stroke-width="4"/>
+    <circle id="ring-c" cx="50" cy="50" r="10" fill="#D80027"/>
+    <circle id="ring-p" cx="50" cy="50" r="44" fill="none" stroke="#FFA946" stroke-width="2"/>
+  </svg>
+  <h1 class="big-serif" style="font-size:150px">BlastRadius</h1>
+  <p class="mid-serif" style="font-size:56px;margin-top:26px;opacity:.9" id="title-sub">Maps what a pull request can break, <em>and hands the map to IBM Bob.</em></p>
+</section>
+
+<section class="scene" id="how">
+  <div class="how-title"><div class="kicker">How it works</div><h2 class="mid-serif">One map, <em>many reviewers.</em></h2></div>
+  <div class="flow">
+    <div class="node" data-at="0.00"><span class="k">Input</span><h4>PR branch</h4><p>Any branch against main. Git refs only.</p></div>
+    <div class="node" data-at="0.08"><span class="k">BlastRadius engine</span><h4>Code graph</h4><p>237 units, 412 edges, parsed in under a second with tree-sitter.</p></div>
+    <div class="node" data-at="0.2"><span class="k">MCP server</span><h4>8 tools</h4><p>analyze_pr, get_dependents, get_subsystem, check_docs, run_tests…</p></div>
+    <div class="node bob" data-at="0.33"><span class="k">IBM Bob IDE</span><h4>Reviewer mode</h4><p>Custom BlastRadius Reviewer mode and skill. Reads the ADRs.</p></div>
+    <div class="node" data-at="0.52"><span class="k">Parallel subagents</span><h4>One per subsystem</h4><div class="subs"><span>comments</span><span>workspace</span><span>tasks</span></div></div>
+    <div class="node" data-at="0.7"><span class="k">Proof</span><h4>Tests run</h4><p>vitest on a real in-memory DB. Red means a finding.</p></div>
+  </div>
+  <div class="how-foot">
+    <span class="chip" style="background:var(--lav)" data-at="0.34">IBM Bob · agent mode · subagents · MCP · skills</span>
+    <span class="chip" style="background:#D6EFE9" data-at="0.86">watsonx.ai · Granite writes the summary</span>
+    <span class="chip" style="background:var(--sand)" data-at="0.92">CI · Bob Shell</span>
+  </div>
+</section>
+
+<section class="scene" id="pr">
+  <div class="pr-grid">
+    <div class="pr-left"><canvas class="full" id="c-pr" style="width:100%;height:100%"></canvas><div class="labels" id="l-pr"></div>
+      <div class="pill pill-big" id="pr-pill"><span class="dot"></span><span id="pr-pill-text"></span></div></div>
+    <div class="pr-right">
+      <p class="eyebrow" id="pr-eyebrow"></p>
+      <h2 class="title" id="pr-title"></h2>
+      <div class="card score-card"><div class="score-top"><div class="score-num" id="pr-score"></div><div><div class="band" id="pr-band"></div><div class="muted" id="pr-diff" style="font-size:18px"></div></div></div><ol class="factors" id="pr-factors"></ol></div>
+      <div class="findings" id="pr-findings"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="tests">
+  <div class="how-title" style="top:60px"><div class="kicker">Bob’s comments subagent</div></div>
+  <div class="term term-big"><div class="term-bar"><i></i><i></i><i></i><span>run_tests · pr-3-task-archiving</span></div>
+<pre><span class="tline" data-at="0.00"><span class="t-dim">$</span> npx vitest run src/__regression__/comments-pr-3-task-archiving.test.ts</span><span class="tline" data-at="0.10"><span class="t-red"> ×</span> lets the author, a workspace member, edit their comment</span><span class="tline" data-at="0.14"><span class="t-red">   → expected 403 to be 200</span></span><span class="tline" data-at="0.34"><span class="t-dim"># route.ts:18 still calls getWorkspaceMember(workspaceId, user.id)</span></span><span class="tline" data-at="0.44"><span class="t-dim"># ADR-002: archive route never calls logEvent</span></span><span class="tline" data-at="0.66"><span class="t-dim"># fixes approved by the reviewer · rerun</span></span><span class="tline" data-at="0.78"><span class="t-green"> ✓</span> lets the author, a workspace member, edit their comment</span><span class="tline" data-at="0.84"><span class="t-green"> ✓</span> archiving a task writes an activity event</span><span class="tline" data-at="0.9"><span class="t-green"> Tests  2 passed (2)</span></span></pre>
+  </div>
+</section>
+
+<section class="scene" id="cli">
+  <div class="how-title" style="top:40px"><div class="kicker">Command line and CI</div></div>
+  <div class="term term-big" style="top:100px;left:120px;right:120px"><div class="term-bar"><i></i><i></i><i></i><span>$ python -m app.cli review --head pr-3-task-archiving --fail-on 70</span></div>
+  <pre id="cli-pre" style="font-size:18.5px;line-height:1.42;min-height:0;white-space:pre;overflow:hidden"></pre></div>
+</section>
+
+<section class="scene center" id="proof">
+  <div class="kicker">Measured on three seeded pull requests</div>
+  <div class="nums">
+    <div class="num"><b id="n-diff">0</b><span>files in the diffs</span></div>
+    <div class="num hot"><b id="n-rad">0</b><span>files in the blast radius</span></div>
+  </div>
+  <div class="proof-rows">
+    <div class="card"><h5>PR-1 · copy change</h5><p>Risk 6 · 1 subsystem · approved in one pass</p></div>
+    <div class="card"><h5>PR-2 · session check</h5><p>Risk 70 · 24 direct callers · 13 subsystems</p></div>
+    <div class="card"><h5>PR-3 · task archiving</h5><p>Risk 95 · 1 caller left behind · ADR-002 broken</p></div>
+  </div>
+</section>
+
+<section class="scene center" id="close">
+  <div class="kicker">BlastRadius for IBM Bob</div>
+  <h1 class="big-serif">Review the blast radius,<br><em>not the diff.</em></h1>
+  <p style="font:500 30px/1.4 var(--sans);margin-top:44px;color:var(--ink-70)">Bob IDE · command line · CI with Bob Shell · watsonx.ai Granite</p>
+</section>
+
+<script type="module">
+import { createGraphScene } from "../site/graph3d.js"
+const graph = await fetch("../site/data/graph.json").then(r => r.json())
+const reports = await fetch("../site/data/reports.json").then(r => r.json())
+const $ = s => document.querySelector(s)
+const ss = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x)
+const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c])
+
+const LBL = {
+  1: [{ q: "src/features/auth/session.ts::getSession", html: "getSession <small>24 callers</small>", at: 0.7 }],
+  0: [{ q: "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList", html: "MyTasksList <small>1 dependent</small>", at: 0.7 }],
+  2: [{ q: "src/features/workspace/queries.ts::getWorkspaceMember", html: "getWorkspaceMember <small>args reordered</small>", at: 0.7 },
+      { q: "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize", html: "comments/[commentId]/route.ts:18 <small>left behind</small>", red: true, at: 1.6 }],
+}
+
+const gProblem = createGraphScene({ canvas: $("#c-problem"), labels: $("#l-problem"), graph, autoRotate: false })
+gProblem.setReport(reports[2], LBL[2])
+const gPr = createGraphScene({ canvas: $("#c-pr"), labels: $("#l-pr"), graph, autoRotate: false })
+let prShown = -1
+
+// diff scene content from the real PR-3 report
+const r3 = reports[2]
+const files = [...new Set(r3.changed_units.map(c => c.file))]
+$("#diff-files").innerHTML = files.slice(0, 13).map(f => `<div class="row"><span class="ok">M</span>${esc(f.replace("src/app/api/workspaces/[id]/", "api/…/").replace("src/", ""))}</div>`).join("") +
+  `<div class="row"><span class="muted">+ ${files.length - 13} more files</span></div>`
+const callers = r3.changed_units.filter(c => c.symbol === "authorize" || c.kind === "component").slice(0, 12)
+$("#diff-callers").innerHTML = callers.map(c => `<div class="row"><span class="ok">✓</span>${esc(c.file.replace("src/app/api/workspaces/[id]/", "api/…/").replace("src/", ""))}</div>`).join("") +
+  `<div class="row"><span class="muted">… 5 more updated</span></div>` +
+  `<div class="row miss"><span class="bad">✗</span>api/…/comments/[commentId]/route.ts:18 not updated</div>`
+
+function showPr(i) {
+  if (prShown === i) return
+  prShown = i
+  const r = reports[i]
+  gPr.setReport(r, LBL[i])
+  const short = ["PR-1", "PR-2", "PR-3"][i]
+  $("#pr-eyebrow").textContent = `${short} · ${r.head}`
+  $("#pr-title").textContent = r.title
+  $("#pr-score").textContent = r.score.total
+  $("#pr-band").textContent = r.score.band; $("#pr-band").className = "band " + r.score.band
+  $("#pr-diff").textContent = `diff ${r.stats.diff.files} file${r.stats.diff.files > 1 ? "s" : ""} · radius ${r.stats.files_in_radius} files · ${r.stats.analysis_ms} ms`
+  $("#pr-factors").innerHTML = r.score.factors.filter(f => f.points > 0 || i === 0).slice(0, i === 2 ? 5 : 7).map(f => `<li class="factor"><span class="fname">${f.name.replace("_", " ")}</span><span class="track"><i style="width:${100 * f.points / f.max}%"></i></span><span class="pts">${f.points}/${f.max}</span><span class="why">${esc(f.why)}</span></li>`).join("")
+  const fnd = []
+  if (r.missed_callers.length) { const m = r.missed_callers[0]; fnd.push(`<article class="finding alert"><span class="tag">Caller left behind</span><p class="path">${esc(m.file.replace("src/app/api/workspaces/[id]/", "api/…/"))}:${m.line}</p><pre>${esc(m.call)}</pre></article>`) }
+  else if (i === 1) fnd.push(`<article class="finding"><span class="tag neutral">Bob’s verdict</span><h3>Safe, but tell support first</h3><p>Every signed-in user is logged out once. Click through sign-in, dashboard and task edits before release (ADR-003).</p></article>`)
+  else fnd.push(`<article class="finding"><span class="tag neutral">Bob’s verdict</span><h3>Approve</h3><p>One component, one page, no contract change, no ADR in scope.</p></article>`)
+  $("#pr-findings").innerHTML = fnd.join("")
+  const pill = $("#pr-pill"); pill.className = "pill pill-big " + r.score.band
+  $("#pr-pill-text").textContent = r.missed_callers.length ? `Risk ${r.score.total} · ${r.score.band} · 1 caller left behind` : `Risk ${r.score.total} · ${r.score.band} · ${r.ripple.length} dependents · ${r.subsystems.length} subsystem${r.subsystems.length > 1 ? "s" : ""}`
+}
+
+const cliHtml = await fetch("build/cli.html").then(r => r.text())
+$("#cli-pre").innerHTML = cliHtml
+let TL = []
+window.setup = (timeline) => { TL = timeline }
+function local(el, u) { // reveal children with data-at (fraction of scene)
+  el.querySelectorAll("[data-at]").forEach(x => {
+    const a = ss((u - parseFloat(x.dataset.at)) / 0.04)
+    if (x.classList.contains("node")) x.classList.toggle("on", u >= parseFloat(x.dataset.at))
+    else x.style.opacity = String(a)
+  })
+}
+window.renderAt = (t) => {
+  for (const s of TL) {
+    const el = document.getElementById(s.scene === "pr1" || s.scene === "pr2" || s.scene === "pr3" ? "pr" : s.scene)
+    const on = t >= s.start && t < s.end
+    if (!on) continue
+  }
+  document.querySelectorAll(".scene").forEach(el => el.style.opacity = "0")
+  const cur = TL.find(s => t >= s.start && t < s.end) || TL[TL.length - 1]
+  const lt = t - cur.start, dur = cur.end - cur.start, u = lt / dur
+  const PRS = { pr1: 0, pr2: 1, pr3: 2 }
+  const id = cur.scene in PRS ? "pr" : cur.scene
+  const el = document.getElementById(id)
+  el.style.opacity = String(Math.min(ss(lt / 0.35), ss((dur - lt) / 0.35) + (cur.last ? 1 : 0)))
+  local(el, u)
+  if (id === "problem") gProblem.capture(lt * 0.9, 0.5 + lt * 0.035)
+  if (id === "pr") { showPr(PRS[cur.scene]); gPr.capture(lt * 0.8, 0.4 + lt * 0.03) }
+  if (id === "diff") el.querySelectorAll(".row").forEach((r, k, all) => r.style.opacity = String(ss((u * 1.25 - 0.08 - k * (0.9 / all.length)) / 0.05)))
+  if (id === "title") {
+    const p = (lt % 1.6) / 1.6
+    const pr = document.getElementById("ring-p"); pr.setAttribute("r", String(10 + p * 40)); pr.style.opacity = String(1 - p)
+    $("#title-sub").style.opacity = String(ss((u - 0.25) / 0.1) * 0.9)
+  }
+  if (id === "cli") el.querySelectorAll(".tline").forEach((x, k, all) => x.style.opacity = String(ss((u * 1.6 - k * (0.9 / all.length)) / 0.03)))
+  if (id === "proof") { $("#n-diff").textContent = Math.round(21 * ss(u / 0.35)); $("#n-rad").textContent = Math.round(56 * ss((u - 0.3) / 0.35)) }
+}
+window.ready = true
+</script>
+</body>
+</html>
