@@ -100,7 +100,7 @@ Measured with `scripts/export_site_data.py`. Every run gives the same numbers.
 | PR-2 | `getSession` rejects tokens older than `SESSION_EPOCH` (3 lines) | 1 | 34 | 34 | 13 | 70 high | ~0.9 s |
 | PR-3 | Task archiving + `getWorkspaceMember` argument swap | 19 | 20 | 19 | 9 | 95 critical | ~0.9 s |
 
-On PR-3 the engine flags the one missed caller at `comments/[commentId]/route.ts:18`. A regression test for that route fails on the branch with `expected 403 to be 200` and passes after the one-line fix. We verified this outside Bob as well, so the demo does not rely on the model getting lucky.
+On PR-3 the engine flags the one missed caller at `comments/[commentId]/route.ts:18`. In our recorded Bob session (task 05), Bob stopped at the gate and sent three subagents (workspace, tasks, comments). They wrote 7 vitest tests, and 2 failed: `expected 403 to be 200` on the comment route, and no activity event from `archiveTask` (ADR-002). Bob applied the fixes after approval and all 5 affected tests passed. Its report is in `reviews/pr-3-task-archiving.md`, and the tests and fixes are in `reviews/pr-3-task-archiving/`. We also checked the 403 failure outside Bob, so the demo doesn't depend on the model getting lucky.
 
 ## Repo layout
 
