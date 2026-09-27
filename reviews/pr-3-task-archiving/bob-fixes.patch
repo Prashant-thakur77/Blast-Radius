@@ -1,0 +1,54 @@
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts
+index 1e23a5f..6e41c84 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts
+@@ -4,6 +4,7 @@ import { getUserById } from "@/features/auth/queries"
+ import { getWorkspaceMember } from "@/features/workspace/queries"
+ import { getTaskById } from "@/features/tasks/queries"
+ import { archiveTask } from "@/features/tasks/mutations"
++import { logEvent } from "@/features/activity/log-event"
+ 
+ async function authorize(workspaceId: string) {
+   const session = await getSession()
+@@ -35,6 +36,16 @@ export async function POST(
+     }
+ 
+     await archiveTask(taskId)
++
++    await logEvent({
++      workspaceId: id,
++      projectId,
++      taskId,
++      actorUserId: user.id,
++      type: "task_archived",
++      payload: { taskTitle: task.title },
++    })
++
+     return NextResponse.json({ ok: true })
+   } catch (error) {
+     console.error("Archive task error:", error)
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts
+index d8ba0b2..ff220be 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts
+@@ -15,7 +15,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/features/activity/types.ts b/src/features/activity/types.ts
+index ec1274a..94b8e1c 100644
+--- a/src/features/activity/types.ts
++++ b/src/features/activity/types.ts
+@@ -2,6 +2,7 @@ export type ActivityType =
+   | "task_created"
+   | "task_status_changed"
+   | "task_assignee_changed"
++  | "task_archived"
+   | "comment_edited"
+   | "comment_deleted"
+ 
