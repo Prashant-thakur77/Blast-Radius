@@ -51,12 +51,16 @@ def _diff_branches(repo_dir: str, source: str, target: str, source_root: str | N
             continue
         if source_root and not path.startswith(source_root + "/"):
             continue
+        git_path = path
+        if source_root:
+            # graph qualnames are relative to the source root, git paths to the repo root
+            path = path[len(source_root) + 1:]
 
         status = "added" if code.startswith("A") else "deleted" if code.startswith("D") else "modified"
         content = None
         if status != "deleted":
             try:
-                content = _git(repo_dir, "show", f"origin/{source}:{path}")
+                content = _git(repo_dir, "show", f"origin/{source}:{git_path}")
             except RuntimeError:
                 continue
 
