@@ -8,7 +8,7 @@
 
 BlastRadius maps everything a pull request can break and hands that map to **IBM Bob**. Bob reviews in a custom mode, checks the team's ADRs, sends a subagent into each affected subsystem, then writes regression tests and runs them.
 
-[Live demo](https://site-seven-zeta-33.vercel.app) · [Demo video](docs/media/BlastRadius_demo.mp4) · [Slides](submission/BlastRadius_slides.pdf) · [Bob session evidence](bob_sessions/README.md) · [Plan](docs/PLAN.md)
+[Live demo](https://site-seven-zeta-33.vercel.app) · [Demo video](docs/media/BlastRadius_demo.mp4) · [Slides](submission/BlastRadius_slides.pdf) · [Bob session evidence](bob_sessions/README.md) · [Releases](https://github.com/Prashant-thakur77/Blast-Radius/releases)
 
 Built for the **IBM Bob 2.0 Hackathon** on lablab.ai · Workflow: **code review** · MIT licensed
 
@@ -23,6 +23,11 @@ Built for the **IBM Bob 2.0 Hackathon** on lablab.ai · Workflow: **code review*
 - A pull request swaps the argument order of `getWorkspaceMember(workspaceId, userId)` and updates 17 of its 18 callers. Both arguments are strings, so TypeScript passes and CI is green. The one missed caller locks real members out of editing comments.
 - BlastRadius scores that PR **95/100 (critical)** in under a second and points at the exact line: `comments/[commentId]/route.ts:18`.
 - IBM Bob, in our **BlastRadius Reviewer** mode, stopped at the gate and sent **three subagents in parallel**. They wrote 7 regression tests; **2 failed** (`expected 403 to be 200`, and a missing activity event that breaks ADR-002). Bob proposed the fixes and applied them after approval, and **5 of 5** tests passed. You can watch it happen in the [demo video](docs/media/BlastRadius_demo.mp4).
+
+## Demo video (2:51)
+
+<p align="center"><a href="docs/media/BlastRadius_demo.mp4"><img src="docs/media/video-poster.jpg" alt="Play the BlastRadius demo video" width="820"></a></p>
+<p align="center">Click the image to play <code>docs/media/BlastRadius_demo.mp4</code>, or watch it on the <a href="https://site-seven-zeta-33.vercel.app/#session">live site</a>. The PR-3 section is real IBM Bob IDE footage.</p>
 
 ## The problem
 
@@ -60,6 +65,47 @@ Tests Bob's subagents wrote and ran on `pr-3-task-archiving`:
 | `workspace-pr-3-task-archiving.test.ts` | PATCH returns 403 for non-member | ✅ | not rerun |
 
 Bob's full report is [`reviews/pr-3-task-archiving.md`](reviews/pr-3-task-archiving.md). The test files and the fixes it applied are in [`reviews/pr-3-task-archiving/`](reviews/pr-3-task-archiving/). Bob also noticed that `docs/ARCHITECTURE.md` still documents the old signature, and left it as a manual follow-up because the Reviewer mode is not allowed to edit docs.
+
+## What happens when you ask Bob to review a branch
+
+This is the flow Bob followed in our recorded PR-3 session, driven by the `blast-radius-review` skill and the Reviewer mode rules:
+
+1. **Checkout.** Bob runs `git checkout pr-3-task-archiving` in the demo repo.
+2. **Map.** Bob calls `analyze_pr`. BlastRadius parses `main` and the branch with tree-sitter and returns the evidence as JSON:
+   - the changed units and their dependents
+   - the subsystems affected
+   - the signature change on `getWorkspaceMember`
+   - the missed caller at `comments/[commentId]/route.ts:18`
+   - the untested units and the ADRs in scope
+   - the score, 95, with a reason for each factor
+3. **Gate.** The mode rules say to stop at a score of 70 or more, or on any missed caller. Bob reports the finding and edits nothing until the human replies.
+4. **Rules.** Bob calls `check_docs`, reads ADR-001 and ADR-002, and judges each rule against the changed code. It cites the ADR file and line for each one.
+5. **Subagents.** Bob calls `get_subsystem` for each risky subsystem, then spawns three `general` subagents in parallel: workspace, tasks and comments. Each subagent writes one vitest file in `src/__regression__/`. The files use the harness helpers (`seedWorkspace`, `signInAs`, `jsonRequest`, `activityFor`) and run against an in-memory SQLite copy of the real schema.
+6. **Proof.** The tests run. Two fail, and each failure is a finding: a member gets a 403 on their own comment, and archiving writes no activity event.
+7. **Fix, with approval.** Bob proposes three small diffs. After the human says yes, it applies them and reruns the two affected test files: 5 of 5 pass.
+8. **Report.** Bob writes `reviews/pr-3-task-archiving.md` with the verdict, the score table, the findings, the test results and the fixes. It also leaves one manual follow-up: `docs/ARCHITECTURE.md` still names the old signature, and the mode is not allowed to edit docs.
+
+## Screenshots
+
+| | |
+|---|---|
+| <img src="docs/media/site-hero.png" alt="Landing page"> | <img src="docs/media/site-stage.png" alt="3D blast view"> |
+| Landing page of the live demo | 3D blast view: changed units in red, the caller left behind ringed |
+| <img src="docs/media/site-report.png" alt="Score breakdown and findings"> | <img src="docs/media/site-session.png" alt="Recorded Bob session"> |
+| Score breakdown and findings for PR-3 | The recorded Bob session, with video and test results |
+| <img src="docs/media/site-bob.png" alt="How Bob uses BlastRadius"> | <img src="docs/media/site-results.png" alt="Results table"> |
+| How Bob uses BlastRadius | Measured results on the three seeded PRs |
+| <img src="docs/media/site-mobile-hero.png" alt="Mobile landing" width="260"> <img src="docs/media/site-mobile-stage.png" alt="Mobile 3D view" width="260"> | <img src="docs/media/cli.jpg" alt="CLI"> |
+| The site on a phone | The CLI on PR-3, exiting with code 2 for CI |
+
+## How this maps to the judging criteria
+
+| Criterion | What to look at |
+|---|---|
+| **Application of Technology**: a clear application of IBM Bob 2.0 | Bob does the review through an MCP server, a custom mode, a skill, mode rules, parallel subagents and document understanding (ADRs). It also runs in CI through Bob Shell. See [IBM Bob at the core](#ibm-bob-at-the-core) and [`bob_sessions/`](bob_sessions/README.md). |
+| **Presentation** | A live demo with a 3D blast view, a narrated 2:51 video with real Bob footage, slides, and this README. |
+| **Business Value**: a high-priority issue | Bugs that pass CI and review ship to production and cost rework. On our seeded PRs the diffs showed 21 files and the blast radius covered 56. Bob caught both hidden bugs before merge, with tests as proof, for 3.24 Bobcoins. |
+| **Originality**: the approach to applying Bob | Bob is the reviewer, not a coding helper. A deterministic engine hands it evidence with file:line references, and Bob proves each finding with tests it wrote and ran. The missed-caller detector catches argument-order bugs that type checkers miss. |
 
 ## How it works
 
@@ -229,6 +275,18 @@ The git history starts with an **Initial commit**: the code as it stood before t
 We also removed an earlier agent integration for another platform and a hardcoded key.
 
 **Tools we used:** IBM Bob IDE ran the reviews, wrote `AGENTS.md`, reviewed the engine and wrote the PR description; `bob_sessions/` has each task. We also used Claude Code to write much of the engine, the site and the video pipeline.
+
+## Versions
+
+| Version | What it contains |
+|---|---|
+| `v0.1.0` | The Initial commit: the code as it stood before the hackathon |
+| `v0.2.0` | Review engine, missed-caller detector, ADRs, regression harness and seeded demo PRs |
+| `v0.3.0` | MCP server, Granite summarizer, CLI, and the IBM Bob mode, rules and skill |
+| `v0.4.0` | Live demo site, video pipeline, submission material and CI workflow |
+| `v1.0.0` | Bob's own work (AGENTS.md, reviews, tests and fixes), the session evidence, the final video and this README |
+
+The live demo is deployed on Vercel from `site/`.
 
 ## Data and licenses
 

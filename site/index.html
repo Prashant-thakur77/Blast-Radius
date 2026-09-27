@@ -31,6 +31,7 @@
     </div>
     <div class="nav-links">
       <a href="#report">Report</a>
+      <a href="#session">Bob session</a>
       <a href="#results">Results</a>
       <a href="https://github.com/" id="repo-link">GitHub</a>
     </div>
@@ -38,7 +39,7 @@
     <button class="menu" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </nav>
   <div class="mobile-menu" hidden>
-    <a href="#stage">Review</a><a href="#report">Report</a><a href="#bob">How Bob uses it</a><a href="#results">Results</a>
+    <a href="#stage">Review</a><a href="#report">Report</a><a href="#bob">How Bob uses it</a><a href="#session">Bob session</a><a href="#results">Results</a>
   </div>
 </header>
 
@@ -119,6 +120,35 @@
 <span class="t-green"> ✓</span> lets the author, a workspace member, edit their comment <span class="t-dim">15ms</span></pre>
     </div>
   </div>
+</section>
+
+
+<section class="session" id="session">
+  <p class="eyebrow">A recorded IBM Bob session</p>
+  <h2 class="display-sm">We asked Bob to review PR-3. <em>Here is what it did.</em></h2>
+  <div class="video-wrap">
+    <video controls preload="metadata" poster="media/poster.jpg" playsinline>
+      <source src="media/blastradius-demo.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="shots">
+    <figure><img src="media/bob-pr3-gate.png" alt="Bob stops at risk 95 and reports the missed caller" loading="lazy"><figcaption><b>1.</b> Risk 95. Bob stops and reports the missed caller before editing anything.</figcaption></figure>
+    <figure><img src="media/bob-pr3-subagents.png" alt="Three subagents write regression tests in parallel" loading="lazy"><figcaption><b>2.</b> Three subagents (workspace, tasks, comments) each write a vitest test.</figcaption></figure>
+    <figure><img src="media/bob-pr3-tests-green.png" alt="All fixes applied, 5 of 5 tests pass" loading="lazy"><figcaption><b>3.</b> After the approved fixes, 5 of 5 affected tests pass.</figcaption></figure>
+  </div>
+  <div class="table-wrap">
+    <table class="results-table">
+      <thead><tr><th>Test Bob's subagents wrote</th><th>Before fix</th><th>After fix</th></tr></thead>
+      <tbody>
+        <tr><td>archive returns 200 for member</td><td>✅</td><td>✅</td></tr>
+        <tr><td>archive returns 403 for non-member</td><td>✅</td><td>✅</td></tr>
+        <tr><td>archiveTask writes activity event <span class="muted small">(ADR-002)</span></td><td class="bad">❌ expected 0 to be greater than 0</td><td>✅</td></tr>
+        <tr><td>PATCH returns 200 for comment author <span class="muted small">(missed caller)</span></td><td class="bad">❌ expected 403 to be 200</td><td>✅</td></tr>
+        <tr><td>DELETE returns 403 for non-member</td><td>✅</td><td>✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted small">Whole review: 3.24 Bobcoins. Bob's report, tests and fixes are in the repo under <code>reviews/</code>.</p>
 </section>
 
 <section class="results" id="results">
