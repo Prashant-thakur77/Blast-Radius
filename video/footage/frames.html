@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Bob footage frames</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#FFFFEB; --sand:#E4E4D0; --ink:#1A1A1A; --teal:#034F46; --lav:#F0D7FF; --red:#D80027; --muted:#71716E; }
+  html,body { margin:0; background:var(--cream); }
+  .f { width:1920px; height:1080px; position:relative; background:var(--cream); overflow:hidden; }
+  .frame { position:absolute; left:1050px; top:32px; width:824px; height:1016px; border-radius:26px; background:#15171b; border:3px solid var(--sand); box-sizing:border-box; }
+  .left { position:absolute; left:110px; top:0; bottom:0; width:860px; display:flex; flex-direction:column; justify-content:center; }
+  .chip { align-self:flex-start; font:600 22px/1 Figtree,sans-serif; background:var(--lav); color:var(--ink); padding:12px 18px; border-radius:999px; border:2px solid var(--ink); margin-bottom:34px; }
+  .step { font:500 20px/1 Figtree,sans-serif; letter-spacing:.16em; text-transform:uppercase; color:rgba(26,26,26,.6); margin-bottom:22px; }
+  h1 { font:400 92px/1.02 "EB Garamond",Georgia,serif; letter-spacing:-.02em; margin:0; color:var(--ink); }
+  h1 em { font-style:italic; }
+  p { font:500 30px/1.4 Figtree,sans-serif; color:var(--ink); margin:34px 0 0; max-width:820px; }
+  code { font:500 25px/1.4 "JetBrains Mono",monospace; background:#EFEFDD; padding:3px 9px; border-radius:8px; }
+  .red { color:var(--red); }
+  .bar { position:absolute; left:110px; bottom:70px; display:flex; gap:10px; }
+  .bar i { width:46px; height:6px; border-radius:6px; background:var(--sand); }
+  .bar i.on { background:var(--ink); }
+</style></head><body>
+<div class="f" id="f0"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · BlastRadius Reviewer</span><div class="step">Real session · step 1 of 6</div><h1>Risk 95. <em>Bob stops and tells the human.</em></h1><p>Missed caller at <code>comments/[commentId]/route.ts:18</code>. No edits until you say yes.</p></div><div class="bar"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div class="f" id="f1"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · parallel subagents</span><div class="step">Real session · step 2 of 6</div><h1>Three subagents, <em>in parallel.</em></h1><p>workspace, tasks and comments. Each one writes a vitest regression test for its own subsystem.</p></div><div class="bar"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+<div class="f" id="f2"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · executed tests</span><div class="step">Real session · step 3 of 6</div><h1>A real member <em>gets a 403.</em></h1><p class="red">comments test: expected 403 to be 200</p><p>7 tests ran against a real in-memory database. 2 failed.</p></div><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+<div class="f" id="f3"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · document understanding</span><div class="step">Real session · step 4 of 6</div><h1>ADR-002, <em>broken.</em></h1><p>The new archive route never calls <code>logEvent</code>. Bob cites the rule from the team’s ADR, line by line.</p></div><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+<div class="f" id="f4"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · human in the loop</span><div class="step">Real session · step 5 of 6</div><h1>Bob proposes the fixes. <em>You approve.</em></h1><p>Swap the arguments on line 18. Log the archive event.</p></div><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+<div class="f" id="f5"><div class="frame"></div><div class="left"><span class="chip">IBM Bob IDE · proof</span><div class="step">Real session · step 6 of 6</div><h1>5 of 5 tests <em>pass.</em></h1><p>Both bugs fixed before merge, with tests Bob wrote and ran.</p></div><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+</body></html>
