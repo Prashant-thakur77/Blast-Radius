@@ -10,3 +10,5 @@ numpy
 umap-learn
 scikit-learn
 hdbscan
+mcp>=1.9,<2
+joblib
