@@ -1,0 +1,22 @@
+diff --git a/src/features/dashboard/components/my-tasks-list.tsx b/src/features/dashboard/components/my-tasks-list.tsx
+index 027b8a1..85110b7 100644
+--- a/src/features/dashboard/components/my-tasks-list.tsx
++++ b/src/features/dashboard/components/my-tasks-list.tsx
+@@ -15,7 +15,7 @@ const priorityVariant: Record<string, "secondary" | "destructive" | "outline"> =
+ }
+ 
+ const statusLabel: Record<string, string> = {
+-  todo: "To do",
++  todo: "Not started",
+   in_progress: "In progress",
+ }
+ 
+@@ -24,7 +24,7 @@ export function MyTasksList({ tasks, workspaceSlug }: MyTasksListProps) {
+     return (
+       <div className="flex flex-col items-center justify-center py-10 text-sm text-muted-foreground">
+         <ListTodo className="h-5 w-5 mb-2 opacity-50" />
+-        No open tasks assigned to you
++        Nothing assigned to you. Enjoy the quiet.
+       </div>
+     )
+   }

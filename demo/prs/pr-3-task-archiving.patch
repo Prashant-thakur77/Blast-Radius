@@ -1,0 +1,294 @@
+diff --git a/src/app/(app)/[workspace]/layout.tsx b/src/app/(app)/[workspace]/layout.tsx
+index 0e6b0de..061b819 100644
+--- a/src/app/(app)/[workspace]/layout.tsx
++++ b/src/app/(app)/[workspace]/layout.tsx
+@@ -20,7 +20,7 @@ export default async function WorkspaceLayout({
+     redirect("/new-workspace")
+   }
+ 
+-  const member = await getWorkspaceMember(workspace.id, user.id)
++  const member = await getWorkspaceMember(user.id, workspace.id)
+   if (!member) {
+     const workspaces = await getUserWorkspaces(user.id)
+     if (workspaces.length > 0) redirect(`/${workspaces[0].slug}/dashboard`)
+diff --git a/src/app/(app)/[workspace]/settings/page.tsx b/src/app/(app)/[workspace]/settings/page.tsx
+index 337b56d..24a1235 100644
+--- a/src/app/(app)/[workspace]/settings/page.tsx
++++ b/src/app/(app)/[workspace]/settings/page.tsx
+@@ -16,7 +16,7 @@ export default async function SettingsPage({
+   if (!workspace) notFound()
+ 
+   const members = await getWorkspaceMembers(workspace.id)
+-  const currentMember = await getWorkspaceMember(workspace.id, user.id)
++  const currentMember = await getWorkspaceMember(user.id, workspace.id)
+   const isOwner = currentMember?.role === "owner"
+ 
+   return (
+diff --git a/src/app/api/workspaces/[id]/members/[memberId]/route.ts b/src/app/api/workspaces/[id]/members/[memberId]/route.ts
+index 3c13fca..ea3b291 100644
+--- a/src/app/api/workspaces/[id]/members/[memberId]/route.ts
++++ b/src/app/api/workspaces/[id]/members/[memberId]/route.ts
+@@ -20,7 +20,7 @@ export async function DELETE(
+       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+     }
+ 
+-    const member = await getWorkspaceMember(id, currentUser.id)
++    const member = await getWorkspaceMember(currentUser.id, id)
+     if (!member || member.role !== "owner") {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+     }
+diff --git a/src/app/api/workspaces/[id]/members/route.ts b/src/app/api/workspaces/[id]/members/route.ts
+index a5204d9..58da182 100644
+--- a/src/app/api/workspaces/[id]/members/route.ts
++++ b/src/app/api/workspaces/[id]/members/route.ts
+@@ -21,7 +21,7 @@ export async function POST(
+       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+     }
+ 
+-    const member = await getWorkspaceMember(id, currentUser.id)
++    const member = await getWorkspaceMember(currentUser.id, id)
+     if (!member || member.role !== "owner") {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+     }
+@@ -37,7 +37,7 @@ export async function POST(
+       return NextResponse.json({ error: "User not found" }, { status: 404 })
+     }
+ 
+-    const existing = await getWorkspaceMember(id, user.id)
++    const existing = await getWorkspaceMember(user.id, id)
+     if (existing) {
+       return NextResponse.json({ error: "User is already a member" }, { status: 409 })
+     }
+diff --git a/src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts b/src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts
+index 2f23c94..00bc516 100644
+--- a/src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts
++++ b/src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts
+@@ -19,7 +19,7 @@ export async function PATCH(
+     const user = await getUserById(session.sub)
+     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+-    const member = await getWorkspaceMember(id, user.id)
++    const member = await getWorkspaceMember(user.id, id)
+     if (!member) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+     const [notification] = await db
+diff --git a/src/app/api/workspaces/[id]/notifications/read-all/route.ts b/src/app/api/workspaces/[id]/notifications/read-all/route.ts
+index d0ef8c2..1dedf1f 100644
+--- a/src/app/api/workspaces/[id]/notifications/read-all/route.ts
++++ b/src/app/api/workspaces/[id]/notifications/read-all/route.ts
+@@ -16,7 +16,7 @@ export async function POST(
+     const user = await getUserById(session.sub)
+     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+-    const member = await getWorkspaceMember(id, user.id)
++    const member = await getWorkspaceMember(user.id, id)
+     if (!member) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+     await markAllAsRead(id, user.id)
+diff --git a/src/app/api/workspaces/[id]/notifications/route.ts b/src/app/api/workspaces/[id]/notifications/route.ts
+index d3c4d79..057c38d 100644
+--- a/src/app/api/workspaces/[id]/notifications/route.ts
++++ b/src/app/api/workspaces/[id]/notifications/route.ts
+@@ -16,7 +16,7 @@ export async function GET(
+     const user = await getUserById(session.sub)
+     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+-    const member = await getWorkspaceMember(id, user.id)
++    const member = await getWorkspaceMember(user.id, id)
+     if (!member) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+     const [notifications, unreadCount] = await Promise.all([
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts
+index 9ac7099..ed0b4f5 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts
+@@ -13,7 +13,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/route.ts
+index 8640d73..c8facc4 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/route.ts
+@@ -13,7 +13,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts
+new file mode 100644
+index 0000000..1e23a5f
+--- /dev/null
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts
+@@ -0,0 +1,43 @@
++import { NextResponse } from "next/server"
++import { getSession } from "@/features/auth/session"
++import { getUserById } from "@/features/auth/queries"
++import { getWorkspaceMember } from "@/features/workspace/queries"
++import { getTaskById } from "@/features/tasks/queries"
++import { archiveTask } from "@/features/tasks/mutations"
++
++async function authorize(workspaceId: string) {
++  const session = await getSession()
++  if (!session) return null
++
++  const user = await getUserById(session.sub)
++  if (!user) return null
++
++  const member = await getWorkspaceMember(user.id, workspaceId)
++  if (!member) return null
++
++  return user
++}
++
++export async function POST(
++  _request: Request,
++  { params }: { params: Promise<{ id: string; projectId: string; taskId: string }> }
++) {
++  try {
++    const { id, projectId, taskId } = await params
++    const user = await authorize(id)
++    if (!user) {
++      return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
++    }
++
++    const task = await getTaskById(taskId)
++    if (!task || task.projectId !== projectId || task.workspaceId !== id) {
++      return NextResponse.json({ error: "Task not found" }, { status: 404 })
++    }
++
++    await archiveTask(taskId)
++    return NextResponse.json({ ok: true })
++  } catch (error) {
++    console.error("Archive task error:", error)
++    return NextResponse.json({ error: "Failed to archive task" }, { status: 500 })
++  }
++}
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts
+index d92fc90..791c3f3 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts
+@@ -15,7 +15,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts
+index 722af70..e6515fe 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts
+@@ -15,7 +15,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts
+index 4f91b48..5be4ed2 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts
+@@ -15,7 +15,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts
+index df1fd3e..45eef44 100644
+--- a/src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts
++++ b/src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts
+@@ -16,7 +16,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/projects/route.ts b/src/app/api/workspaces/[id]/projects/route.ts
+index 69618cd..2eb1765 100644
+--- a/src/app/api/workspaces/[id]/projects/route.ts
++++ b/src/app/api/workspaces/[id]/projects/route.ts
+@@ -13,7 +13,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member) return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/route.ts b/src/app/api/workspaces/[id]/route.ts
+index f0583fb..525b336 100644
+--- a/src/app/api/workspaces/[id]/route.ts
++++ b/src/app/api/workspaces/[id]/route.ts
+@@ -12,7 +12,7 @@ async function authorize(workspaceId: string) {
+   const user = await getUserById(session.sub)
+   if (!user) return null
+ 
+-  const member = await getWorkspaceMember(workspaceId, user.id)
++  const member = await getWorkspaceMember(user.id, workspaceId)
+   if (!member || member.role !== "owner") return null
+ 
+   return user
+diff --git a/src/app/api/workspaces/[id]/search/route.ts b/src/app/api/workspaces/[id]/search/route.ts
+index 2225137..0c1ec1b 100644
+--- a/src/app/api/workspaces/[id]/search/route.ts
++++ b/src/app/api/workspaces/[id]/search/route.ts
+@@ -16,7 +16,7 @@ export async function GET(
+     const user = await getUserById(session.sub)
+     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+-    const member = await getWorkspaceMember(id, user.id)
++    const member = await getWorkspaceMember(user.id, id)
+     if (!member) return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+ 
+     const url = new URL(request.url)
+diff --git a/src/features/tasks/mutations.ts b/src/features/tasks/mutations.ts
+index c37fa68..2a405dc 100644
+--- a/src/features/tasks/mutations.ts
++++ b/src/features/tasks/mutations.ts
+@@ -60,3 +60,10 @@ export async function moveTask(id: string, status: string, position: number) {
+ export async function deleteTask(id: string) {
+   await db.delete(tasks).where(eq(tasks.id, id))
+ }
++
++export async function archiveTask(id: string) {
++  await db
++    .update(tasks)
++    .set({ status: "archived", updatedAt: new Date() })
++    .where(eq(tasks.id, id))
++}
+diff --git a/src/features/workspace/queries.ts b/src/features/workspace/queries.ts
+index 7d30c25..78c4ab2 100644
+--- a/src/features/workspace/queries.ts
++++ b/src/features/workspace/queries.ts
+@@ -73,7 +73,7 @@ export async function getUserWorkspaces(userId: string) {
+   return memberships
+ }
+ 
+-export async function getWorkspaceMember(workspaceId: string, userId: string) {
++export async function getWorkspaceMember(userId: string, workspaceId: string) {
+   return db.query.workspaceMembers.findFirst({
+     where: and(
+       eq(workspaceMembers.workspaceId, workspaceId),

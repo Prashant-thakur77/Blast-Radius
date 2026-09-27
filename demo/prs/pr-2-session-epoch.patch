@@ -1,0 +1,21 @@
+diff --git a/src/features/auth/session.ts b/src/features/auth/session.ts
+index 3765a95..e78bd27 100644
+--- a/src/features/auth/session.ts
++++ b/src/features/auth/session.ts
+@@ -5,6 +5,8 @@ import type { SessionPayload } from "./types"
+ const SECRET = new TextEncoder().encode(process.env.SERVER_SECRET || "dev-secret-change-me")
+ const COOKIE_NAME = "session"
+ const EXPIRY_DAYS = 7
++// Tokens issued before this time are rejected. Bump it to sign everyone out after a key rotation.
++const SESSION_EPOCH = Number(process.env.SESSION_EPOCH ?? 0)
+ 
+ export async function createSession(user: { id: string; username: string }) {
+   const token = await new SignJWT({
+@@ -34,6 +36,7 @@ export async function getSession(): Promise<SessionPayload | null> {
+ 
+   try {
+     const { payload } = await jwtVerify(token, SECRET)
++    if ((payload.iat ?? 0) < SESSION_EPOCH) return null
+     return {
+       sub: payload.sub as string,
+       username: payload.username as string,
