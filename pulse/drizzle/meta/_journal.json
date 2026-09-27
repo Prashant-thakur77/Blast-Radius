@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1774100834963,
+      "tag": "0000_normal_metal_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1774102668802,
+      "tag": "0001_nebulous_human_fly",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1774153355986,
+      "tag": "0002_flippant_captain_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1774185017165,
+      "tag": "0003_careful_champions",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1774187280926,
+      "tag": "0004_bent_expediter",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.venv/
+*.egg-info/
+
+# build
+.next/
+out/
+build/
+dist/
+coverage/
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# env
+.env
+.env.local
+.env*.local
+
+# misc
+.DS_Store
+*.pem
+.vercel
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# database
+*.db
+*.db-shm
+*.db-wal
+
+# generated data (vectors, reducers, logs, repos, costs)
+blastradius/backend/data/logs/
+blastradius/backend/data/repos/
+blastradius/backend/data/vectors_*
+blastradius/backend/data/reducer_*
+blastradius/backend/data/costs.json
+blastradius/backend/app/data/
+
+# pickle / numpy
+*.pkl
+*.npy
+
+#ref
+/ref
