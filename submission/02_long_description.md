@@ -15,7 +15,7 @@ A BlastRadius MCP server gives Bob all of this as eight tools. A custom BlastRad
 - Judge each rule in the team's ADRs.
 - Send one subagent per affected subsystem to write a vitest regression test and run it against a real in-memory database.
 - Apply fixes only after a yes.
-IBM Granite on watsonx.ai writes the summary from the evidence.
+When watsonx.ai credentials are set, IBM Granite writes the summary from the evidence.
 
 People use it three ways:
 - In Bob IDE: switch to the Reviewer mode and say "review branch X".

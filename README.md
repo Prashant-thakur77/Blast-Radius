@@ -90,7 +90,7 @@ flowchart LR
    - Read the ADRs and judge each rule.
    - Send one subagent per risky subsystem to write and run a regression test.
    - Propose fixes, and apply them only after a yes.
-4. **Granite writes the summary.** `app/review/granite.py` calls `ibm/granite-4-h-small` on watsonx.ai. It passes only the JSON evidence, with temperature 0, a fixed seed and a no-invention prompt. Without credentials it falls back to a template, so the review never fails because the narrator did.
+4. **Granite writes the summary.** `app/review/granite.py` calls `ibm/granite-4-h-small` on watsonx.ai. It passes only the JSON evidence, with temperature 0, a fixed seed and a no-invention prompt. Without credentials it falls back to a template, so the review never fails because the narrator did. The recorded demo ran without watsonx credentials, so its summaries came from the template.
 
 ### The score
 

@@ -14,8 +14,8 @@ How we use Bob in the product:
 - **Bob Shell.** `.github/workflows/blastradius.yml` runs the CLI gate, then `bob run` with the same skill to write the review in CI.
 - **.bobignore** keeps .env files, databases and node_modules out of Bob's reads.
 
-Evidence: `bob_sessions/` holds a PNG of the consumption summary for every Bob task, named teamname_taskNN_description.png, with an index in `bob_sessions/README.md`.
+Evidence: `bob_sessions/` holds screenshots of our Bob tasks, named teamname_taskNN_description.png: task summaries for tasks 02, 03, 04, 06 and 07, and stills from the screen recording of the PR-3 review (task 05). `bob_sessions/README.md` indexes them with coin counts. Bob's reports, tests and fixes are in `reviews/`.
 
 Other tools we used: Claude Code wrote much of the review engine, the static site and the video pipeline. Chatterbox TTS generated the narration.
 
-watsonx.ai: `blastradius/backend/app/review/granite.py` calls `ibm/granite-4-h-small` through the watsonx.ai chat API (Dallas) to write the one-paragraph review summary. It passes only the JSON evidence, with temperature 0, a fixed seed and a no-invention system prompt. Without credentials it uses a deterministic template, and the review never fails because the narrator did.
+watsonx.ai (optional): `blastradius/backend/app/review/granite.py` can call `ibm/granite-4-h-small` through the watsonx.ai chat API (Dallas) to write the one-paragraph review summary. It passes only the JSON evidence, with temperature 0, a fixed seed and a no-invention system prompt. We did not set watsonx credentials for the recorded demo, so those summaries came from its deterministic template fallback.
