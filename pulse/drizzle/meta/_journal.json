@@ -36,6 +36,13 @@
       "when": 1774187280926,
       "tag": "0004_bent_expediter",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1790507186817,
+      "tag": "0005_user_profile_and_settings",
+      "breakpoints": true
     }
   ]
 }

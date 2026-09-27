@@ -9,7 +9,7 @@ import * as activity from "./schema/activity"
 import * as notifications from "./schema/notifications"
 import * as userSettings from "./schema/user-settings"
 
-const sqlite = new Database("sqlite.db")
+const sqlite = new Database(process.env.PULSE_DB_PATH || "sqlite.db")
 sqlite.pragma("journal_mode = WAL")
 
 export const db = drizzle(sqlite, { schema: { ...users, ...workspaces, ...projects, ...tasks, ...comments, ...activity, ...notifications, ...userSettings } })
