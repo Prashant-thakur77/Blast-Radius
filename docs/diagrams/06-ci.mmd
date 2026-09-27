@@ -1,0 +1,10 @@
+flowchart LR
+  PR[pull request] --> CO[checkout, full history]
+  CO --> SC[blastradius review --json<br/>and --fail-on 80 --fail-on-missed]
+  SC --> BS{BOB_API_KEY set?}
+  BS -- yes --> BOB[bob run --mode agent --max-cost 3<br/>blast-radius-review skill]
+  BS -- no --> CM
+  BOB --> CM[sticky PR comment<br/>found by a hidden marker]
+  CM --> G{exit code 2?}
+  G -- yes --> FAIL[check fails:<br/>a human must approve]
+  G -- no --> PASS[check passes]

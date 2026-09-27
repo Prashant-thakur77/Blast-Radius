@@ -1,0 +1,11 @@
+flowchart LR
+  SJ[video/script.json] --> TTS[Chatterbox TTS<br/>per-line narration]
+  TTS --> TL[timeline from<br/>narration lengths]
+  TL --> SC[scenes.html<br/>three.js graph + product UI]
+  SC --> PW[Playwright + Chromium<br/>frame-by-frame capture]
+  PW --> FF[ffmpeg<br/>H.264 1080p30]
+  REC[Bob IDE screen recording] --> SP[splice_bob.py<br/>captioned clips]
+  FF --> SP
+  TTS --> MIX[music ducked under voice<br/>loudness -14 LUFS]
+  SP --> OUT[BlastRadius_demo.mp4<br/>2:51]
+  MIX --> OUT

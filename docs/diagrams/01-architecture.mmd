@@ -1,0 +1,38 @@
+flowchart LR
+  dev([Developer / reviewer])
+  subgraph BOB[IBM Bob IDE]
+    mode[BlastRadius Reviewer<br/>custom mode]
+    skill[blast-radius-review<br/>skill]
+    rules[review protocol<br/>rules]
+    subs[parallel subagents<br/>one per subsystem]
+  end
+  subgraph BR[BlastRadius]
+    mcp[MCP server<br/>8 tools, stdio]
+    eng[Review engine<br/>score, ripple, missed callers]
+    parser[tree-sitter parser<br/>units and edges]
+    cli[CLI<br/>--json, --fail-on]
+    granite[Granite summary<br/>watsonx.ai, optional]
+  end
+  subgraph REPO[Target repo]
+    git[(git refs<br/>main + PR branch)]
+    adr[docs/adr/*.md]
+    tests[vitest regression<br/>harness]
+  end
+  subgraph CI[GitHub Actions]
+    gate[CLI gate]
+    shell[Bob Shell<br/>bob run]
+  end
+  site[Live demo site<br/>3D blast view]
+
+  dev -->|"review branch X"| mode
+  mode --> skill --> rules
+  mode <-->|MCP| mcp
+  mcp --> eng --> parser --> git
+  eng --> adr
+  mcp -->|run_tests| tests
+  mode --> subs -->|write + run| tests
+  mcp --> granite
+  cli --> eng
+  gate --> cli
+  shell --> mode
+  eng -. exported reports .-> site

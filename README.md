@@ -8,7 +8,7 @@
 
 BlastRadius maps everything a pull request can break and hands that map to **IBM Bob**. Bob reviews in a custom mode, checks the team's ADRs, sends a subagent into each affected subsystem, then writes regression tests and runs them.
 
-[Live demo](https://site-seven-zeta-33.vercel.app) · [Demo video](docs/media/BlastRadius_demo.mp4) · [Slides](submission/BlastRadius_slides.pdf) · [Bob session evidence](bob_sessions/README.md) · [Releases](https://github.com/Prashant-thakur77/Blast-Radius/releases)
+[Live demo](https://site-seven-zeta-33.vercel.app) · [Demo video](docs/media/BlastRadius_demo.mp4) · [Slides](submission/BlastRadius_slides.pdf) · [Bob session evidence](bob_sessions/README.md) · [Design and diagrams](docs/DESIGN.md) · [Releases](https://github.com/Prashant-thakur77/Blast-Radius/releases)
 
 Built for the **IBM Bob 2.0 Hackathon** on lablab.ai · Workflow: **code review** · MIT licensed
 
@@ -108,6 +108,10 @@ This is the flow Bob followed in our recorded PR-3 session, driven by the `blast
 | **Originality**: the approach to applying Bob | Bob is the reviewer, not a coding helper. A deterministic engine hands it evidence with file:line references, and Bob proves each finding with tests it wrote and ran. The missed-caller detector catches argument-order bugs that type checkers miss. |
 
 ## How it works
+
+The full design, with nine diagrams (architecture, review flow, engine pipeline, missed-caller detection, score, CI, demo repo, video pipeline and plan), is in [`docs/DESIGN.md`](docs/DESIGN.md). Editable versions are in [`docs/diagrams/`](docs/diagrams/), including [`blastradius.drawio`](docs/diagrams/blastradius.drawio).
+
+<p align="center"><img src="docs/diagrams/01-architecture.png" alt="BlastRadius architecture" width="900"></p>
 
 ```mermaid
 flowchart LR
@@ -252,29 +256,6 @@ cd pulse && npx vitest run                                                # regr
 | `bob_sessions/` | Screenshots of every Bob task, with an index |
 | `video/` | Narration script, scenes, renderer, and the script that splices in Bob footage |
 | `submission/` | lablab texts, slides, cover image |
-
-## How the video was made
-
-- **Narration:** Chatterbox TTS (`video/tts.py`).
-- **Scenes:** `video/scenes.html` renders the real Pulse graph with three.js. Playwright captures it frame by frame in Chromium (`video/render.py`).
-- **Bob footage:** `video/splice_bob.py` cuts the recorded session into the PR-3 section.
-- **Audio:** ffmpeg ducks the music under the voice and mixes to −14 LUFS.
-
-The result is 2:51.
-
-## What existed before the hackathon, and what we built during it
-
-The git history starts with an **Initial commit**: the code as it stood before the event. That was the TypeScript parser, the REST API with per-commit graph snapshots, and the Next.js 3D explorer running on OpenAI. Every later commit was made during the event:
-- the review engine and missed-caller detector
-- the MCP server and everything in `.bob/`
-- the seeded PRs, ADRs and vitest harness
-- the CLI, the Granite summarizer and the CI workflow
-- the site and the video
-- Bob's own work: `AGENTS.md`, the reviews, the tests and the fixes
-
-We also removed an earlier agent integration for another platform and a hardcoded key.
-
-**Tools we used:** IBM Bob IDE ran the reviews, wrote `AGENTS.md`, reviewed the engine and wrote the PR description; `bob_sessions/` has each task. We also used Claude Code to write much of the engine, the site and the video pipeline.
 
 ## Versions
 

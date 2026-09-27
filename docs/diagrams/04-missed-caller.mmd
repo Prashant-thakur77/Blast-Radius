@@ -1,0 +1,14 @@
+flowchart TB
+  S[modified exported function] --> P{parameter names<br/>before == after?}
+  P -- yes --> OK[no contract change]
+  P -- no --> K{same names,<br/>different order?}
+  K -- yes --> R[kind = reordered]
+  K -- no --> AR{different count?}
+  AR -- yes --> Y[kind = arity]
+  AR -- no --> N[kind = renamed]
+  R --> C[for every caller in base + head graphs]
+  Y --> C
+  C --> CS[find call sites with tree-sitter<br/>collect argument texts]
+  CS --> AL{reordered: arguments align better<br/>with the OLD order?<br/>arity: argument count wrong?}
+  AL -- yes --> MISS[missed caller<br/>file:line + call + reason]
+  AL -- no --> FINE[caller updated]

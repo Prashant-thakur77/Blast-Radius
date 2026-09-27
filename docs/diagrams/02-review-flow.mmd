@@ -1,0 +1,24 @@
+sequenceDiagram
+  actor H as Reviewer
+  participant B as Bob (Reviewer mode)
+  participant M as blastradius MCP
+  participant E as Engine
+  participant S as Subagents x3
+  participant T as vitest
+  H->>B: Review branch pr-3-task-archiving
+  B->>M: analyze_pr(head)
+  M->>E: parse main + branch, diff, ripple, score
+  E-->>M: score 95, missed caller route.ts:18, ADRs in scope
+  M-->>B: JSON evidence
+  B-->>H: STOP: risk 95 + missed caller
+  H->>B: Continue
+  B->>M: check_docs, get_subsystem
+  B->>S: spawn workspace, tasks, comments
+  S->>T: write + run one test each
+  T-->>S: 2 failures (403, no activity event)
+  S-->>B: results with failure messages
+  B-->>H: findings + proposed fixes
+  H->>B: Yes, apply both fixes
+  B->>T: rerun affected tests
+  T-->>B: 5 / 5 pass
+  B->>B: write reviews/pr-3-task-archiving.md

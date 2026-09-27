@@ -1,0 +1,11 @@
+flowchart TB
+  A[git archive base + head<br/>cached by commit sha] --> B[tree-sitter parse<br/>units: function, component, hook, api_handler<br/>edges: calls, renders, http_calls]
+  B --> C[changed units<br/>added / modified / deleted by code hash]
+  C --> D[ripple<br/>BFS over reverse edges, depth 3]
+  C --> E[contract changes<br/>parameter lists before vs after]
+  E --> F[missed callers<br/>argument alignment per call site]
+  D --> G[subsystems<br/>from file paths]
+  C --> H[untested units<br/>test files that name the symbol]
+  C --> I[ADR and doc hits<br/>symbols + 'Applies to' lines, doc drift]
+  D & F & G & H & I --> J[score 0-100<br/>7 capped factors, each with a reason]
+  J --> K[(JSON report)]
