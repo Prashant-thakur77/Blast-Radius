@@ -6,7 +6,7 @@ Built for the IBM Bob 2.0 Hackathon on lablab.ai. Workflow: **code review**.
 
 - Code: https://github.com/Prashant-thakur77/Blast-Radius
 
-- Demo site: `site/` (static, deploys anywhere). Run it locally with `python3 -m http.server -d site 8765`.
+- Live demo: https://site-seven-zeta-33.vercel.app (source in `site/`; run locally with `python3 -m http.server -d site 8765`)
 - Video: `video/build/blastradius_demo.mp4` (under 3 minutes)
 - Bob evidence: [`bob_sessions/`](bob_sessions/)
 
