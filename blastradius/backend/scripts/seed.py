@@ -4,6 +4,7 @@ Seed script: creates repo, ingests all branches, enriches, and runs MR analysis.
 Usage: cd blastradius/backend && .venv/bin/python scripts/seed.py
 """
 
+import os
 import json
 import subprocess
 import sys
@@ -11,7 +12,7 @@ import time
 from pathlib import Path
 
 API = "http://localhost:8000"
-KEY = "REDACTED"
+KEY = os.environ.get("BLASTRADIUS_API_SECRET", "")
 REPO_URL = "https://github.com/username/project.git"
 REPO_NAME = "pulse"
 SOURCE_ROOT = "pulse"

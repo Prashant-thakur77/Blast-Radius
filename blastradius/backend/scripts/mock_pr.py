@@ -9,11 +9,12 @@ Usage: cd blastradius/backend && .venv/bin/python scripts/mock_pr.py
 """
 
 import json
+import os
 import subprocess
 import sys
 
 API = "http://localhost:8000"
-KEY = "REDACTED"
+KEY = os.environ.get("BLASTRADIUS_API_SECRET", "")
 SOURCE = "feature/task-due-reminders"
 TARGET = "main"
 

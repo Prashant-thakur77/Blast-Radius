@@ -7,6 +7,7 @@ the two approaches produce identical results.
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -17,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.services.parser import discover_files, parse_project
 from app.services.parser.types import ParsedUnit
 
-PULSE_REPO = "/Users/zelongwang/Documents/GitHub/pulse"
+PULSE_REPO = os.environ.get("PULSE_REPO", str(Path(__file__).resolve().parents[3] / "demo-workspace" / "pulse"))
 
 COMMITS = [
     "4071196",  # 1: initial commit

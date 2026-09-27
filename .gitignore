@@ -62,3 +62,7 @@ blastradius/backend/app/data/
 
 #ref
 /ref
+# BlastRadius demo + generated
+/demo-workspace/
+.blastradius/
+video/build/
