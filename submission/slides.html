@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlastRadius slides</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site/styles.css">
+<style>
+  @page { size: 1920px 1080px; margin: 0; }
+  html, body { margin: 0; background: var(--cream); }
+  .slide { width: 1920px; height: 1080px; position: relative; overflow: hidden; page-break-after: always; box-sizing: border-box; padding: 96px 110px; background: var(--cream); }
+  .slide.teal { background: var(--teal); color: var(--cream); }
+  .k { font: 500 22px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-70); margin: 0 0 30px; }
+  .teal .k { color: rgba(255,255,235,.75); }
+  h1 { font: 400 150px/.95 var(--serif); letter-spacing: -.03em; margin: 0; }
+  h2 { font: 400 84px/1.02 var(--serif); letter-spacing: -.02em; margin: 0; max-width: 1500px; }
+  h1 em, h2 em { font-style: italic; }
+  p.big { font: 400 34px/1.4 var(--sans); max-width: 1300px; margin: 36px 0 0; }
+  ul.b { font: 400 30px/1.45 var(--sans); margin: 40px 0 0; padding-left: 34px; max-width: 1500px; }
+  ul.b li { margin: 12px 0; }
+  .foot { position: absolute; left: 110px; right: 110px; bottom: 56px; display: flex; justify-content: space-between; font: 500 20px/1 var(--sans); color: var(--muted); }
+  .teal .foot { color: rgba(255,255,235,.6); }
+  .shot { position: absolute; right: 80px; top: 170px; width: 1100px; border-radius: 22px; border: 2px solid var(--sand); box-shadow: 0 20px 60px rgba(26,26,26,.12); }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 60px; }
+  .grid3 .card { padding: 30px; }
+  .grid3 h3 { font: 400 44px/1.05 var(--serif); margin: 12px 0 12px; }
+  .grid3 p { font: 22px/1.45 var(--sans); margin: 0; color: var(--ink-70); }
+  .tbl { width: 100%; border-collapse: collapse; margin-top: 44px; font: 25px/1.35 var(--sans); }
+  .tbl td { padding: 15px 18px; border-bottom: 1.5px solid rgba(255,255,235,.18); vertical-align: top; }
+  .tbl td:first-child { font-weight: 700; width: 360px; color: var(--orange); }
+  .tbl code { background: rgba(255,255,235,.12); color: var(--cream); font-size: 21px; }
+  .nums { display: flex; gap: 140px; margin-top: 60px; }
+  .nums b { display: block; font: 400 240px/.9 var(--serif); letter-spacing: -.04em; }
+  .nums span { font: 500 30px/1.2 var(--sans); color: var(--ink-70); }
+  .nums .hot b { color: var(--red); }
+  .rings { width: 170px; height: 170px; margin-bottom: 40px; }
+</style>
+</head>
+<body>
+
+<section class="slide center" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+  <svg class="rings" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="50" cy="50" r="26" fill="none" stroke="#FF6C4C" stroke-width="4"/><circle cx="50" cy="50" r="10" fill="#D80027"/></svg>
+  <p class="k">BlastRadius for IBM Bob</p>
+  <h1>Review the blast radius,<br><em>not the diff.</em></h1>
+  <p class="big" style="margin-top:44px">IBM Bob 2.0 Hackathon · workflow: code review</p>
+</section>
+
+<section class="slide">
+  <p class="k">The problem</p>
+  <h2>The diff shows nineteen tidy files. <em>It can’t show the caller it missed.</em></h2>
+  <img class="shot" src="img/s2.jpg" style="top:430px;width:1000px" alt="">
+  <ul class="b" style="max-width:640px">
+    <li>Reviewers read diffs. Damage lives in callers, other subsystems and team rules.</li>
+    <li>Same-typed arguments swapped: TypeScript passes, CI is green.</li>
+    <li>The bug ships and the team pays for it in rework.</li>
+  </ul>
+  <div class="foot"><span>BlastRadius</span><span>2</span></div>
+</section>
+
+<section class="slide">
+  <p class="k">The solution</p>
+  <h2>BlastRadius maps what a PR can break, <em>and IBM Bob reviews with the map.</em></h2>
+  <div class="grid3">
+    <div class="card"><span class="step-k" style="color:var(--coral)">Engine</span><h3>Code graph in under a second</h3><p>tree-sitter over git refs. Dependents, subsystems, signature changes, missed callers, untested units, ADRs in scope. A 0–100 score with a reason for every point.</p></div>
+    <div class="card" style="background:var(--lav)"><span class="step-k" style="color:var(--ink)">IBM Bob</span><h3>The reviewer</h3><p>MCP server, BlastRadius Reviewer mode and skill. Stops for a human, reads ADRs, sends a subagent into each subsystem, proposes fixes.</p></div>
+    <div class="card"><span class="step-k" style="color:var(--coral)">Proof</span><h3>Tests that ran</h3><p>Subagents write vitest regression tests against a real in-memory database. A red test is a finding. Granite on watsonx.ai writes the summary.</p></div>
+  </div>
+  <div class="foot"><span>BlastRadius</span><span>3</span></div>
+</section>
+
+<section class="slide teal">
+  <p class="k">IBM Bob at the core</p>
+  <h2>Every Bob feature <em>does a job.</em></h2>
+  <table class="tbl">
+    <tr><td>MCP server</td><td><code>analyze_pr</code> <code>get_dependents</code> <code>get_subsystem</code> <code>check_docs</code> <code>run_tests</code> + 3 more</td></tr>
+    <tr><td>Custom mode + rules</td><td>BlastRadius Reviewer: evidence rules, stop at score ≥ 70 or a missed caller, edits limited to tests and approved fixes</td></tr>
+    <tr><td>Skill</td><td><code>blast-radius-review</code>: the 9-step procedure, reusable from any mode</td></tr>
+    <tr><td>Parallel subagents</td><td>One per risky subsystem, each writes and runs one regression test</td></tr>
+    <tr><td>Document understanding</td><td>Judges each ADR rule with the file and line</td></tr>
+    <tr><td>/init · /review · Bob Shell</td><td>AGENTS.md written by Bob · Bob reviews this repo · <code>bob run</code> in GitHub Actions</td></tr>
+  </table>
+  <div class="foot"><span>BlastRadius</span><span>4</span></div>
+</section>
+
+<section class="slide" style="padding:0">
+  <img src="img/s5c.jpg" style="width:1920px;height:1080px;display:block" alt="PR-3 blast radius with the caller left behind">
+</section>
+
+<section class="slide">
+  <p class="k">Proof on three seeded PRs</p>
+  <h2>Bob found both hidden bugs, <em>with tests it ran.</em></h2>
+  <div class="nums">
+    <div><b>21</b><span>files in the diffs</span></div>
+    <div class="hot"><b>56</b><span>files in the blast radius</span></div>
+  </div>
+  <ul class="b">
+    <li>PR-1 copy change: risk 6, approved in one pass.  PR-2, three lines: risk 70, 34 units in 13 subsystems.</li>
+    <li>PR-3: risk 95. Missed caller at <code>comments/[commentId]/route.ts:18</code>: test red (403), fixed, green. ADR-002 violation caught.</li>
+  </ul>
+  <div class="foot"><span>BlastRadius</span><span>6</span></div>
+</section>
+
+<section class="slide">
+  <p class="k">Business value</p>
+  <h2>Less rework, <em>fewer bugs that pass CI.</em></h2>
+  <ul class="b">
+    <li>Reviewers start from what the change can break. Every finding carries a file and line, so there is nothing to argue about.</li>
+    <li>The evidence is deterministic and takes under a second. The model only explains it, so a flaky model can't turn a risky PR green.</li>
+    <li>One engine, three places: Bob IDE for reviewers, the CLI for developers, CI with a merge gate and Bob Shell.</li>
+    <li>Next: more languages, and a history of past reviews Bob can query through MCP.</li>
+  </ul>
+  <div class="foot"><span>BlastRadius</span><span>7</span></div>
+</section>
+
+<section class="slide teal" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+  <p class="k">BlastRadius</p>
+  <h1 style="font-size:130px">Review what it <em>breaks.</em></h1>
+  <p class="big" style="margin-top:44px;color:rgba(255,255,235,.85)">IBM Bob IDE · MCP · subagents · watsonx.ai Granite · Bob Shell</p>
+</section>
+
+</body>
+</html>
