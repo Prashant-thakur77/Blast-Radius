@@ -1,0 +1,1588 @@
+[
+ {
+  "tool": "blastradius",
+  "version": 1,
+  "base": "main",
+  "head": "pr-1-dashboard-copy",
+  "base_sha": "5d9fe206e81957433ff208444015a9ebe88dbc75",
+  "head_sha": "1b175699653c300849c31ceb46fd8137e944cebe",
+  "score": {
+   "total": 6,
+   "band": "low",
+   "factors": [
+    {
+     "name": "reach",
+     "max": 25,
+     "points": 2,
+     "why": "1 dependent units (1 direct)"
+    },
+    {
+     "name": "spread",
+     "max": 15,
+     "points": 0,
+     "why": "1 subsystems touched"
+    },
+    {
+     "name": "criticality",
+     "max": 15,
+     "points": 0,
+     "why": "no auth/session/membership/db units changed"
+    },
+    {
+     "name": "contract",
+     "max": 10,
+     "points": 0,
+     "why": "0 exported signature change(s)"
+    },
+    {
+     "name": "missed_callers",
+     "max": 20,
+     "points": 0,
+     "why": "0 caller(s) not updated for a changed signature"
+    },
+    {
+     "name": "untested",
+     "max": 8,
+     "points": 4,
+     "why": "2 changed or directly affected units have no test"
+    },
+    {
+     "name": "docs",
+     "max": 7,
+     "points": 0,
+     "why": "0 ADR/doc section(s) in scope"
+    }
+   ]
+  },
+  "changed_units": [
+   {
+    "qualname": "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList",
+    "symbol": "MyTasksList",
+    "file": "src/features/dashboard/components/my-tasks-list.tsx",
+    "line": 22,
+    "kind": "component",
+    "change": "modified",
+    "subsystem": "dashboard",
+    "dependents": 1
+   }
+  ],
+  "ripple": [
+   {
+    "qualname": "src/app/(app)/[workspace]/dashboard/page.tsx::DashboardPage",
+    "file": "src/app/(app)/[workspace]/dashboard/page.tsx",
+    "line": 15,
+    "kind": "component",
+    "distance": 1,
+    "via": "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList",
+    "origin": "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList",
+    "edge": "renders",
+    "subsystem": "dashboard"
+   }
+  ],
+  "subsystems": [
+   {
+    "name": "dashboard",
+    "changed": 1,
+    "ripple": 1,
+    "units": [
+     "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList",
+     "src/app/(app)/[workspace]/dashboard/page.tsx::DashboardPage"
+    ]
+   }
+  ],
+  "contract_changes": [],
+  "missed_callers": [],
+  "untested": [
+   {
+    "qualname": "src/features/dashboard/components/my-tasks-list.tsx::MyTasksList",
+    "file": "src/features/dashboard/components/my-tasks-list.tsx",
+    "line": 22,
+    "kind": "component"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/dashboard/page.tsx::DashboardPage",
+    "file": "src/app/(app)/[workspace]/dashboard/page.tsx",
+    "line": 15,
+    "kind": "component"
+   }
+  ],
+  "docs": [],
+  "stats": {
+   "units": 237,
+   "edges": 412,
+   "parse_ms": 1789,
+   "analysis_ms": 905,
+   "diff": {
+    "files": 1,
+    "insertions": 2,
+    "deletions": 2
+   },
+   "files_in_diff": 1,
+   "files_in_radius": 2,
+   "test_files": 1
+  },
+  "files_in_radius": [
+   "src/app/(app)/[workspace]/dashboard/page.tsx",
+   "src/features/dashboard/components/my-tasks-list.tsx"
+  ],
+  "title": "Dashboard copy tweak"
+ },
+ {
+  "tool": "blastradius",
+  "version": 1,
+  "base": "main",
+  "head": "pr-2-session-epoch",
+  "base_sha": "5d9fe206e81957433ff208444015a9ebe88dbc75",
+  "head_sha": "49e240aef6b6b69f04edba6c9631621ca23738ee",
+  "score": {
+   "total": 70,
+   "band": "high",
+   "factors": [
+    {
+     "name": "reach",
+     "max": 25,
+     "points": 25,
+     "why": "34 dependent units (24 direct)"
+    },
+    {
+     "name": "spread",
+     "max": 15,
+     "points": 15,
+     "why": "13 subsystems touched"
+    },
+    {
+     "name": "criticality",
+     "max": 15,
+     "points": 15,
+     "why": "changes getSession"
+    },
+    {
+     "name": "contract",
+     "max": 10,
+     "points": 0,
+     "why": "0 exported signature change(s)"
+    },
+    {
+     "name": "missed_callers",
+     "max": 20,
+     "points": 0,
+     "why": "0 caller(s) not updated for a changed signature"
+    },
+    {
+     "name": "untested",
+     "max": 8,
+     "points": 8,
+     "why": "21 changed or directly affected units have no test"
+    },
+    {
+     "name": "docs",
+     "max": 7,
+     "points": 7,
+     "why": "5 ADR/doc section(s) in scope"
+    }
+   ]
+  },
+  "changed_units": [
+   {
+    "qualname": "src/features/auth/session.ts::getSession",
+    "symbol": "getSession",
+    "file": "src/features/auth/session.ts",
+    "line": 31,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "auth",
+    "dependents": 24
+   }
+  ],
+  "ripple": [
+   {
+    "qualname": "src/app/(app)/[workspace]/projects/[slug]/page.tsx::ProjectDetailPage",
+    "file": "src/app/(app)/[workspace]/projects/[slug]/page.tsx",
+    "line": 11,
+    "kind": "component",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "projects"
+   },
+   {
+    "qualname": "src/app/api/user/profile/route.ts::PATCH",
+    "file": "src/app/api/user/profile/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "account"
+   },
+   {
+    "qualname": "src/app/api/user/route.ts::DELETE",
+    "file": "src/app/api/user/route.ts",
+    "line": 6,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "account"
+   },
+   {
+    "qualname": "src/app/api/user/settings/route.ts::GET",
+    "file": "src/app/api/user/settings/route.ts",
+    "line": 8,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/api/user/settings/route.ts::PATCH",
+    "file": "src/app/api/user/settings/route.ts",
+    "line": 28,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/api/users/search/route.ts::GET",
+    "file": "src/app/api/users/search/route.ts",
+    "line": 5,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "search"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE",
+    "file": "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "workspace"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/members/route.ts",
+    "line": 8,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "workspace"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH",
+    "file": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+    "line": 10,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "notifications"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "notifications"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/route.ts::GET",
+    "file": "src/app/api/workspaces/[id]/notifications/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "notifications"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+    "line": 9,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "activity"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+    "line": 9,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "projects"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+    "line": 11,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "comments"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+    "line": 11,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "comments"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+    "line": 11,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "tasks"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+    "line": 11,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "tasks"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+    "line": 12,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "tasks"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/route.ts",
+    "line": 9,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "projects"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/route.ts",
+    "line": 8,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "workspace"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/search/route.ts::GET",
+    "file": "src/app/api/workspaces/[id]/search/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "search"
+   },
+   {
+    "qualname": "src/app/api/workspaces/route.ts::POST",
+    "file": "src/app/api/workspaces/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "workspace"
+   },
+   {
+    "qualname": "src/app/page.tsx::RootPage",
+    "file": "src/app/page.tsx",
+    "line": 5,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "app-shell"
+   },
+   {
+    "qualname": "src/lib/auth/guard.ts::requireAuth",
+    "file": "src/lib/auth/guard.ts",
+    "line": 5,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/auth/session.ts::getSession",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "lib"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/account/account-danger-section.tsx::AccountDangerSection",
+    "file": "src/app/(app)/[workspace]/account/account-danger-section.tsx",
+    "line": 13,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/app/api/user/route.ts::DELETE",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "http_calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/account/notifications-section.tsx::NotificationsSection",
+    "file": "src/app/(app)/[workspace]/account/notifications-section.tsx",
+    "line": 30,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/app/api/user/settings/route.ts::PATCH",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "http_calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/account/page.tsx::AccountPage",
+    "file": "src/app/(app)/[workspace]/account/page.tsx",
+    "line": 7,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/lib/auth/guard.ts::requireAuth",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/account/profile-section.tsx::ProfileSection",
+    "file": "src/app/(app)/[workspace]/account/profile-section.tsx",
+    "line": 13,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/app/api/user/profile/route.ts::PATCH",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "http_calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/dashboard/page.tsx::DashboardPage",
+    "file": "src/app/(app)/[workspace]/dashboard/page.tsx",
+    "line": 15,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/lib/auth/guard.ts::requireAuth",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "dashboard"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/layout.tsx::WorkspaceLayout",
+    "file": "src/app/(app)/[workspace]/layout.tsx",
+    "line": 6,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/lib/auth/guard.ts::requireAuth",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "app-shell"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/settings/page.tsx::SettingsPage",
+    "file": "src/app/(app)/[workspace]/settings/page.tsx",
+    "line": 8,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/lib/auth/guard.ts::requireAuth",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/settings/workspace-members-section.tsx::WorkspaceMembersSection",
+    "file": "src/app/(app)/[workspace]/settings/workspace-members-section.tsx",
+    "line": 19,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/app/api/users/search/route.ts::GET",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "http_calls",
+    "subsystem": "settings"
+   },
+   {
+    "qualname": "src/app/(app)/layout.tsx::AppLayout",
+    "file": "src/app/(app)/layout.tsx",
+    "line": 3,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/lib/auth/guard.ts::requireAuth",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "calls",
+    "subsystem": "app-shell"
+   },
+   {
+    "qualname": "src/app/(auth)/new-workspace/page.tsx::OnboardingPage",
+    "file": "src/app/(auth)/new-workspace/page.tsx",
+    "line": 11,
+    "kind": "component",
+    "distance": 2,
+    "via": "src/app/api/workspaces/route.ts::POST",
+    "origin": "src/features/auth/session.ts::getSession",
+    "edge": "http_calls",
+    "subsystem": "workspace"
+   }
+  ],
+  "subsystems": [
+   {
+    "name": "settings",
+    "changed": 0,
+    "ripple": 8,
+    "units": [
+     "src/app/api/user/settings/route.ts::GET",
+     "src/app/api/user/settings/route.ts::PATCH",
+     "src/app/(app)/[workspace]/account/profile-section.tsx::ProfileSection",
+     "src/app/(app)/[workspace]/account/account-danger-section.tsx::AccountDangerSection",
+     "src/app/(app)/[workspace]/account/notifications-section.tsx::NotificationsSection",
+     "src/app/(app)/[workspace]/settings/workspace-members-section.tsx::WorkspaceMembersSection",
+     "src/app/(app)/[workspace]/account/page.tsx::AccountPage",
+     "src/app/(app)/[workspace]/settings/page.tsx::SettingsPage"
+    ]
+   },
+   {
+    "name": "workspace",
+    "changed": 0,
+    "ripple": 5,
+    "units": [
+     "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE",
+     "src/app/api/workspaces/[id]/members/route.ts::POST",
+     "src/app/api/workspaces/[id]/route.ts::authorize",
+     "src/app/api/workspaces/route.ts::POST",
+     "src/app/(auth)/new-workspace/page.tsx::OnboardingPage"
+    ]
+   },
+   {
+    "name": "app-shell",
+    "changed": 0,
+    "ripple": 3,
+    "units": [
+     "src/app/page.tsx::RootPage",
+     "src/app/(app)/[workspace]/layout.tsx::WorkspaceLayout",
+     "src/app/(app)/layout.tsx::AppLayout"
+    ]
+   },
+   {
+    "name": "notifications",
+    "changed": 0,
+    "ripple": 3,
+    "units": [
+     "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH",
+     "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+     "src/app/api/workspaces/[id]/notifications/route.ts::GET"
+    ]
+   },
+   {
+    "name": "projects",
+    "changed": 0,
+    "ripple": 3,
+    "units": [
+     "src/app/(app)/[workspace]/projects/[slug]/page.tsx::ProjectDetailPage",
+     "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "tasks",
+    "changed": 0,
+    "ripple": 3,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "account",
+    "changed": 0,
+    "ripple": 2,
+    "units": [
+     "src/app/api/user/profile/route.ts::PATCH",
+     "src/app/api/user/route.ts::DELETE"
+    ]
+   },
+   {
+    "name": "auth",
+    "changed": 1,
+    "ripple": 0,
+    "units": [
+     "src/features/auth/session.ts::getSession"
+    ]
+   },
+   {
+    "name": "comments",
+    "changed": 0,
+    "ripple": 2,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "search",
+    "changed": 0,
+    "ripple": 2,
+    "units": [
+     "src/app/api/users/search/route.ts::GET",
+     "src/app/api/workspaces/[id]/search/route.ts::GET"
+    ]
+   },
+   {
+    "name": "activity",
+    "changed": 0,
+    "ripple": 1,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "dashboard",
+    "changed": 0,
+    "ripple": 1,
+    "units": [
+     "src/app/(app)/[workspace]/dashboard/page.tsx::DashboardPage"
+    ]
+   },
+   {
+    "name": "lib",
+    "changed": 0,
+    "ripple": 1,
+    "units": [
+     "src/lib/auth/guard.ts::requireAuth"
+    ]
+   }
+  ],
+  "contract_changes": [],
+  "missed_callers": [],
+  "untested": [
+   {
+    "qualname": "src/features/auth/session.ts::getSession",
+    "file": "src/features/auth/session.ts",
+    "line": 31,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/projects/[slug]/page.tsx::ProjectDetailPage",
+    "file": "src/app/(app)/[workspace]/projects/[slug]/page.tsx",
+    "line": 11,
+    "kind": "component"
+   },
+   {
+    "qualname": "src/app/api/user/profile/route.ts::PATCH",
+    "file": "src/app/api/user/profile/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/user/route.ts::DELETE",
+    "file": "src/app/api/user/route.ts",
+    "line": 6,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/user/settings/route.ts::PATCH",
+    "file": "src/app/api/user/settings/route.ts",
+    "line": 28,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE",
+    "file": "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/members/route.ts",
+    "line": 8,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH",
+    "file": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+    "line": 10,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+    "line": 12,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/route.ts",
+    "line": 8,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/route.ts::POST",
+    "file": "src/app/api/workspaces/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/page.tsx::RootPage",
+    "file": "src/app/page.tsx",
+    "line": 5,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/lib/auth/guard.ts::requireAuth",
+    "file": "src/lib/auth/guard.ts",
+    "line": 5,
+    "kind": "function"
+   }
+  ],
+  "docs": [
+   {
+    "file": "docs/ARCHITECTURE.md",
+    "line": 11,
+    "title": "Pulse architecture",
+    "heading": "Key functions",
+    "matched_symbols": [
+     "getSession"
+    ],
+    "matched_subsystems": [],
+    "rules": [
+     "`logEvent(params)` in `features/activity/log-event.ts` writes one row to `activity_events`. It swallows errors so a logging failure never breaks a request."
+    ],
+    "drift": [],
+    "excerpt": "- `getSession()` in `features/auth/session.ts` reads and verifies the session cookie. Every API route and the app layout call it.\n- `getWorkspaceMember(workspaceId, userId)` in `features/workspace/queries.ts` returns the caller's membership row, or undefined. Routes treat undefined as 403.\n- `logEvent(params)` in `features/activity/log-event.ts` writes one row to `activity_events`. It swallows err"
+   },
+   {
+    "file": "docs/adr/ADR-001-workspace-authorization.md",
+    "line": 1,
+    "title": "ADR-001: Every workspace route authorizes membership first",
+    "heading": "ADR-001: Every workspace route authorizes membership first",
+    "matched_symbols": [],
+    "matched_subsystems": [
+     "activity",
+     "comments",
+     "notifications",
+     "projects",
+     "search",
+     "tasks",
+     "workspace"
+    ],
+    "rules": [],
+    "drift": [],
+    "excerpt": "Status: Accepted\nApplies to: workspace, projects, tasks, comments, notifications, activity, search"
+   },
+   {
+    "file": "docs/adr/ADR-002-activity-log.md",
+    "line": 1,
+    "title": "ADR-002: Task and comment mutations always write an activity event",
+    "heading": "ADR-002: Task and comment mutations always write an activity event",
+    "matched_symbols": [],
+    "matched_subsystems": [
+     "activity",
+     "comments",
+     "tasks"
+    ],
+    "rules": [],
+    "drift": [],
+    "excerpt": "Status: Accepted\nApplies to: tasks, comments, activity"
+   },
+   {
+    "file": "docs/adr/ADR-003-sessions.md",
+    "line": 1,
+    "title": "ADR-003: Session handling lives in one place",
+    "heading": "ADR-003: Session handling lives in one place",
+    "matched_symbols": [],
+    "matched_subsystems": [
+     "auth"
+    ],
+    "rules": [],
+    "drift": [],
+    "excerpt": "Status: Accepted\nApplies to: auth"
+   },
+   {
+    "file": "docs/adr/ADR-003-sessions.md",
+    "line": 6,
+    "title": "ADR-003: Session handling lives in one place",
+    "heading": "Decision",
+    "matched_symbols": [
+     "getSession"
+    ],
+    "matched_subsystems": [],
+    "rules": [
+     "`getSession()` is the only way code reads the session. Never read the cookie directly.",
+     "Any change that can invalidate existing sessions MUST be announced to support before release, because every signed-in user is affected at once."
+    ],
+    "drift": [],
+    "excerpt": "- `getSession()` is the only way code reads the session. Never read the cookie directly.\n- Any change that can invalidate existing sessions MUST be announced to support before release, because every signed-in user is affected at once."
+   }
+  ],
+  "stats": {
+   "units": 237,
+   "edges": 412,
+   "parse_ms": 1807,
+   "analysis_ms": 918,
+   "diff": {
+    "files": 1,
+    "insertions": 3,
+    "deletions": 0
+   },
+   "files_in_diff": 1,
+   "files_in_radius": 34,
+   "test_files": 1
+  },
+  "files_in_radius": [
+   "src/app/(app)/[workspace]/account/account-danger-section.tsx",
+   "src/app/(app)/[workspace]/account/notifications-section.tsx",
+   "src/app/(app)/[workspace]/account/page.tsx",
+   "src/app/(app)/[workspace]/account/profile-section.tsx",
+   "src/app/(app)/[workspace]/dashboard/page.tsx",
+   "src/app/(app)/[workspace]/layout.tsx",
+   "src/app/(app)/[workspace]/projects/[slug]/page.tsx",
+   "src/app/(app)/[workspace]/settings/page.tsx",
+   "src/app/(app)/[workspace]/settings/workspace-members-section.tsx",
+   "src/app/(app)/layout.tsx",
+   "src/app/(auth)/new-workspace/page.tsx",
+   "src/app/api/user/profile/route.ts",
+   "src/app/api/user/route.ts",
+   "src/app/api/user/settings/route.ts",
+   "src/app/api/users/search/route.ts",
+   "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+   "src/app/api/workspaces/[id]/members/route.ts",
+   "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+   "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+   "src/app/api/workspaces/[id]/notifications/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+   "src/app/api/workspaces/[id]/projects/route.ts",
+   "src/app/api/workspaces/[id]/route.ts",
+   "src/app/api/workspaces/[id]/search/route.ts",
+   "src/app/api/workspaces/route.ts",
+   "src/app/page.tsx",
+   "src/features/auth/session.ts",
+   "src/lib/auth/guard.ts"
+  ],
+  "title": "Sign everyone out after a key rotation"
+ },
+ {
+  "tool": "blastradius",
+  "version": 1,
+  "base": "main",
+  "head": "pr-3-task-archiving",
+  "base_sha": "5d9fe206e81957433ff208444015a9ebe88dbc75",
+  "head_sha": "72571062c39f55198bce3162e2a4093dc7e57f91",
+  "score": {
+   "total": 95,
+   "band": "critical",
+   "factors": [
+    {
+     "name": "reach",
+     "max": 25,
+     "points": 25,
+     "why": "19 dependent units (19 direct, 18 of them edited in this PR)"
+    },
+    {
+     "name": "spread",
+     "max": 15,
+     "points": 15,
+     "why": "9 subsystems touched"
+    },
+    {
+     "name": "criticality",
+     "max": 15,
+     "points": 15,
+     "why": "changes getWorkspaceMember"
+    },
+    {
+     "name": "contract",
+     "max": 10,
+     "points": 10,
+     "why": "1 exported signature change(s)"
+    },
+    {
+     "name": "missed_callers",
+     "max": 20,
+     "points": 15,
+     "why": "1 caller(s) not updated for a changed signature"
+    },
+    {
+     "name": "untested",
+     "max": 8,
+     "points": 8,
+     "why": "19 changed or directly affected units have no test"
+    },
+    {
+     "name": "docs",
+     "max": 7,
+     "points": 7,
+     "why": "5 ADR/doc section(s) in scope; doc names a changed signature"
+    }
+   ]
+  },
+  "changed_units": [
+   {
+    "qualname": "src/app/(app)/[workspace]/layout.tsx::WorkspaceLayout",
+    "symbol": "WorkspaceLayout",
+    "file": "src/app/(app)/[workspace]/layout.tsx",
+    "line": 6,
+    "kind": "component",
+    "change": "modified",
+    "subsystem": "app-shell",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/settings/page.tsx::SettingsPage",
+    "symbol": "SettingsPage",
+    "file": "src/app/(app)/[workspace]/settings/page.tsx",
+    "line": 8,
+    "kind": "component",
+    "change": "modified",
+    "subsystem": "settings",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE",
+    "symbol": "DELETE",
+    "file": "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "workspace",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/route.ts::POST",
+    "symbol": "POST",
+    "file": "src/app/api/workspaces/[id]/members/route.ts",
+    "line": 8,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "workspace",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH",
+    "symbol": "PATCH",
+    "file": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+    "line": 10,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "notifications",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+    "symbol": "POST",
+    "file": "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "notifications",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/route.ts::GET",
+    "symbol": "GET",
+    "file": "src/app/api/workspaces/[id]/notifications/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "notifications",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+    "line": 9,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "activity",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+    "line": 9,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "projects",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts",
+    "line": 8,
+    "kind": "function",
+    "change": "added",
+    "subsystem": "tasks",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::POST",
+    "symbol": "POST",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts",
+    "line": 21,
+    "kind": "api_handler",
+    "change": "added",
+    "subsystem": "tasks",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+    "line": 11,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "comments",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+    "line": 11,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "tasks",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+    "line": 11,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "tasks",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+    "line": 12,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "tasks",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/projects/route.ts",
+    "line": 9,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "projects",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/route.ts::authorize",
+    "symbol": "authorize",
+    "file": "src/app/api/workspaces/[id]/route.ts",
+    "line": 8,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "workspace",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/search/route.ts::GET",
+    "symbol": "GET",
+    "file": "src/app/api/workspaces/[id]/search/route.ts",
+    "line": 7,
+    "kind": "api_handler",
+    "change": "modified",
+    "subsystem": "search",
+    "dependents": 0
+   },
+   {
+    "qualname": "src/features/tasks/mutations.ts::archiveTask",
+    "symbol": "archiveTask",
+    "file": "src/features/tasks/mutations.ts",
+    "line": 64,
+    "kind": "function",
+    "change": "added",
+    "subsystem": "tasks",
+    "dependents": 1
+   },
+   {
+    "qualname": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "symbol": "getWorkspaceMember",
+    "file": "src/features/workspace/queries.ts",
+    "line": 76,
+    "kind": "function",
+    "change": "modified",
+    "subsystem": "workspace",
+    "dependents": 18
+   }
+  ],
+  "ripple": [
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+    "line": 11,
+    "kind": "function",
+    "distance": 1,
+    "via": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "origin": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "edge": "calls",
+    "subsystem": "comments"
+   }
+  ],
+  "subsystems": [
+   {
+    "name": "tasks",
+    "changed": 6,
+    "ripple": 0,
+    "units": [
+     "src/features/tasks/mutations.ts::archiveTask",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::POST"
+    ]
+   },
+   {
+    "name": "workspace",
+    "changed": 4,
+    "ripple": 0,
+    "units": [
+     "src/features/workspace/queries.ts::getWorkspaceMember",
+     "src/app/api/workspaces/[id]/route.ts::authorize",
+     "src/app/api/workspaces/[id]/members/route.ts::POST",
+     "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE"
+    ]
+   },
+   {
+    "name": "notifications",
+    "changed": 3,
+    "ripple": 0,
+    "units": [
+     "src/app/api/workspaces/[id]/notifications/route.ts::GET",
+     "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+     "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH"
+    ]
+   },
+   {
+    "name": "projects",
+    "changed": 2,
+    "ripple": 0,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "comments",
+    "changed": 1,
+    "ripple": 1,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize",
+     "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "activity",
+    "changed": 1,
+    "ripple": 0,
+    "units": [
+     "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize"
+    ]
+   },
+   {
+    "name": "app-shell",
+    "changed": 1,
+    "ripple": 0,
+    "units": [
+     "src/app/(app)/[workspace]/layout.tsx::WorkspaceLayout"
+    ]
+   },
+   {
+    "name": "search",
+    "changed": 1,
+    "ripple": 0,
+    "units": [
+     "src/app/api/workspaces/[id]/search/route.ts::GET"
+    ]
+   },
+   {
+    "name": "settings",
+    "changed": 1,
+    "ripple": 0,
+    "units": [
+     "src/app/(app)/[workspace]/settings/page.tsx::SettingsPage"
+    ]
+   }
+  ],
+  "contract_changes": [
+   {
+    "qualname": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "symbol": "getWorkspaceMember",
+    "file": "src/features/workspace/queries.ts",
+    "line": 76,
+    "old_params": [
+     "workspaceId",
+     "userId"
+    ],
+    "new_params": [
+     "userId",
+     "workspaceId"
+    ],
+    "kind": "reordered",
+    "callers": 18
+   }
+  ],
+  "missed_callers": [
+   {
+    "callee": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "caller": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+    "line": 18,
+    "call": "getWorkspaceMember(workspaceId, user.id)",
+    "reason": "arguments (workspaceId, user.id) still match the old order (workspaceId, userId); new order is (userId, workspaceId)",
+    "caller_changed_in_pr": false
+   }
+  ],
+  "untested": [
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/members/route.ts",
+    "line": 8,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/settings/page.tsx::SettingsPage",
+    "file": "src/app/(app)/[workspace]/settings/page.tsx",
+    "line": 8,
+    "kind": "component"
+   },
+   {
+    "qualname": "src/features/tasks/mutations.ts::archiveTask",
+    "file": "src/features/tasks/mutations.ts",
+    "line": 64,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/members/[memberId]/route.ts::DELETE",
+    "file": "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/features/workspace/queries.ts::getWorkspaceMember",
+    "file": "src/features/workspace/queries.ts",
+    "line": 76,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts",
+    "line": 21,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/route.ts",
+    "line": 8,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts::PATCH",
+    "file": "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+    "line": 10,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/notifications/read-all/route.ts::POST",
+    "file": "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+    "line": 7,
+    "kind": "api_handler"
+   },
+   {
+    "qualname": "src/app/(app)/[workspace]/layout.tsx::WorkspaceLayout",
+    "file": "src/app/(app)/[workspace]/layout.tsx",
+    "line": 6,
+    "kind": "component"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+    "line": 9,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+    "line": 12,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+    "line": 11,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts",
+    "line": 8,
+    "kind": "function"
+   },
+   {
+    "qualname": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts::authorize",
+    "file": "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+    "line": 11,
+    "kind": "function"
+   }
+  ],
+  "docs": [
+   {
+    "file": "docs/ARCHITECTURE.md",
+    "line": 11,
+    "title": "Pulse architecture",
+    "heading": "Key functions",
+    "matched_symbols": [
+     "getWorkspaceMember"
+    ],
+    "matched_subsystems": [],
+    "rules": [
+     "`logEvent(params)` in `features/activity/log-event.ts` writes one row to `activity_events`. It swallows errors so a logging failure never breaks a request."
+    ],
+    "drift": [
+     "getWorkspaceMember"
+    ],
+    "excerpt": "- `getSession()` in `features/auth/session.ts` reads and verifies the session cookie. Every API route and the app layout call it.\n- `getWorkspaceMember(workspaceId, userId)` in `features/workspace/queries.ts` returns the caller's membership row, or undefined. Routes treat undefined as 403.\n- `logEvent(params)` in `features/activity/log-event.ts` writes one row to `activity_events`. It swallows err"
+   },
+   {
+    "file": "docs/adr/ADR-001-workspace-authorization.md",
+    "line": 1,
+    "title": "ADR-001: Every workspace route authorizes membership first",
+    "heading": "ADR-001: Every workspace route authorizes membership first",
+    "matched_symbols": [],
+    "matched_subsystems": [
+     "activity",
+     "comments",
+     "notifications",
+     "projects",
+     "search",
+     "tasks",
+     "workspace"
+    ],
+    "rules": [],
+    "drift": [],
+    "excerpt": "Status: Accepted\nApplies to: workspace, projects, tasks, comments, notifications, activity, search"
+   },
+   {
+    "file": "docs/adr/ADR-001-workspace-authorization.md",
+    "line": 10,
+    "title": "ADR-001: Every workspace route authorizes membership first",
+    "heading": "Decision",
+    "matched_symbols": [
+     "getWorkspaceMember"
+    ],
+    "matched_subsystems": [],
+    "rules": [
+     "Every API route under `/api/workspaces/[id]` MUST call `getWorkspaceMember(workspaceId, userId)` before it reads or writes any workspace data.",
+     "A missing membership MUST return 403, never 404 and never data."
+    ],
+    "drift": [
+     "getWorkspaceMember"
+    ],
+    "excerpt": "- Every API route under `/api/workspaces/[id]` MUST call `getWorkspaceMember(workspaceId, userId)` before it reads or writes any workspace data.\n- A missing membership MUST return 403, never 404 and never data.\n- Argument order is part of the contract. Changing it requires updating every caller in the same PR and a test for at least one route per subsystem."
+   },
+   {
+    "file": "docs/adr/ADR-001-workspace-authorization.md",
+    "line": 16,
+    "title": "ADR-001: Every workspace route authorizes membership first",
+    "heading": "Consequences",
+    "matched_symbols": [
+     "getWorkspaceMember"
+    ],
+    "matched_subsystems": [],
+    "rules": [],
+    "drift": [
+     "getWorkspaceMember"
+    ],
+    "excerpt": "`getWorkspaceMember` is on the hot path of 17 route files. Treat any change to it as high risk."
+   },
+   {
+    "file": "docs/adr/ADR-002-activity-log.md",
+    "line": 1,
+    "title": "ADR-002: Task and comment mutations always write an activity event",
+    "heading": "ADR-002: Task and comment mutations always write an activity event",
+    "matched_symbols": [],
+    "matched_subsystems": [
+     "activity",
+     "comments",
+     "tasks"
+    ],
+    "rules": [],
+    "drift": [],
+    "excerpt": "Status: Accepted\nApplies to: tasks, comments, activity"
+   }
+  ],
+  "stats": {
+   "units": 240,
+   "edges": 417,
+   "parse_ms": 1845,
+   "analysis_ms": 968,
+   "diff": {
+    "files": 19,
+    "insertions": 68,
+    "deletions": 18
+   },
+   "files_in_diff": 19,
+   "files_in_radius": 20,
+   "test_files": 1
+  },
+  "files_in_radius": [
+   "src/app/(app)/[workspace]/layout.tsx",
+   "src/app/(app)/[workspace]/settings/page.tsx",
+   "src/app/api/workspaces/[id]/members/[memberId]/route.ts",
+   "src/app/api/workspaces/[id]/members/route.ts",
+   "src/app/api/workspaces/[id]/notifications/[notificationId]/read/route.ts",
+   "src/app/api/workspaces/[id]/notifications/read-all/route.ts",
+   "src/app/api/workspaces/[id]/notifications/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/activity/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/archive/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/[commentId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/comments/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/move/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/[taskId]/route.ts",
+   "src/app/api/workspaces/[id]/projects/[projectId]/tasks/route.ts",
+   "src/app/api/workspaces/[id]/projects/route.ts",
+   "src/app/api/workspaces/[id]/route.ts",
+   "src/app/api/workspaces/[id]/search/route.ts",
+   "src/features/tasks/mutations.ts",
+   "src/features/workspace/queries.ts"
+  ],
+  "title": "Task archiving + getWorkspaceMember refactor"
+ }
+]

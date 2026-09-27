@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BlastRadius</title>
+<meta name="description" content="BlastRadius maps what a pull request can break and hands that map to IBM Bob, who checks your ADRs, writes regression tests and runs them.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231A1A1A' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23FF6C4C' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='3.4' fill='%23D80027'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="announce">
+  <span>Built for the IBM Bob 2.0 Hackathon. IBM Bob does the review; BlastRadius draws the map.</span>
+  <a href="#bob">See how <span aria-hidden="true">›</span></a>
+</div>
+
+<header class="nav-wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="#top" aria-label="BlastRadius home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="16" cy="16" r="8" fill="none" stroke="var(--coral)" stroke-width="2.6"/><circle cx="16" cy="16" r="3.4" fill="var(--red)"/></svg>
+      <span>BlastRadius</span>
+    </a>
+    <div class="seg nav-seg" role="tablist" aria-label="View">
+      <a class="on" href="#stage">Review</a>
+      <a href="#bob">Bob</a>
+    </div>
+    <div class="nav-links">
+      <a href="#report">Report</a>
+      <a href="#results">Results</a>
+      <a href="https://github.com/" id="repo-link">GitHub</a>
+    </div>
+    <a class="btn btn-lav nav-cta" href="#stage" data-pr="2">Watch PR-3 break</a>
+    <button class="menu" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" hidden>
+    <a href="#stage">Review</a><a href="#report">Report</a><a href="#bob">How Bob uses it</a><a href="#results">Results</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <p class="eyebrow">BlastRadius for IBM Bob</p>
+  <h1 class="display">Don’t review the diff,<br><em>review the blast radius.</em></h1>
+  <p class="lede">BlastRadius maps everything a pull request can break and hands that map to IBM Bob. Bob checks it against your ADRs, sends a subagent into each affected subsystem, then writes regression tests and runs them.</p>
+  <div class="hero-cta">
+    <a class="btn btn-lav btn-lg" href="#stage" data-pr="2">Watch PR-3 break</a>
+    <a class="btn btn-ghost btn-lg" href="#bob">How Bob uses it</a>
+  </div>
+  <p class="caption">Runs in Bob IDE, on the command line, and in CI with Bob Shell</p>
+</section>
+
+<section class="stage-wrap" id="stage" aria-label="Interactive blast radius">
+  <div class="stage">
+    <canvas id="graph" aria-label="3D dependency graph of the Pulse sample app"></canvas>
+    <div class="labels" id="labels" aria-hidden="true"></div>
+    <div class="stage-top">
+      <div class="seg pr-seg" role="tablist" aria-label="Seeded pull requests">
+        <button role="tab" data-pr="0">PR-1 <span>copy</span></button>
+        <button role="tab" data-pr="1">PR-2 <span>session</span></button>
+        <button role="tab" data-pr="2">PR-3 <span>archive</span></button>
+      </div>
+      <button class="replay" id="replay" aria-label="Replay the blast">Replay</button>
+    </div>
+    <div class="stage-bottom">
+      <div class="pill" id="pill"><span class="dot"></span><span id="pill-text">Loading graph…</span></div>
+    </div>
+    <ul class="legend" aria-label="Legend">
+      <li><i style="background:var(--red)"></i>changed</li>
+      <li><i style="background:var(--orange)"></i>depends on it</li>
+      <li><i class="ring"></i>caller left behind</li>
+    </ul>
+  </div>
+  <p class="stage-note" id="stage-note">237 code units and 412 edges from the Pulse sample app, parsed in under a second. Drag to rotate.</p>
+</section>
+
+<section class="report" id="report">
+  <div class="report-head">
+    <p class="eyebrow" id="r-eyebrow">PR-3 · pr-3-task-archiving</p>
+    <h2 class="display-sm" id="r-title">Task archiving</h2>
+  </div>
+  <div class="report-grid">
+    <div class="card score-card">
+      <div class="score-top">
+        <div class="score-num" id="r-score">95</div>
+        <div>
+          <div class="band" id="r-band">critical</div>
+          <div class="muted" id="r-diffline">diff: 19 files</div>
+        </div>
+      </div>
+      <ol class="factors" id="r-factors"></ol>
+    </div>
+    <div class="findings" id="r-findings"></div>
+  </div>
+</section>
+
+<section class="teal" id="bob">
+  <div class="teal-inner">
+    <p class="eyebrow on-dark">IBM Bob is the reviewer</p>
+    <h2 class="display on-dark">One map, <em>many reviewers.</em></h2>
+    <p class="lede on-dark">BlastRadius runs as an MCP server inside Bob IDE. A custom BlastRadius Reviewer mode and a reusable skill tell Bob how to review. Every claim Bob makes cites a file and line, an ADR, or a test it actually ran.</p>
+    <ol class="steps">
+      <li class="step"><span class="step-k">MCP server</span><h3>Bob asks for the map</h3><p><code>analyze_pr</code>, <code>get_dependents</code>, <code>get_subsystem</code>, <code>check_docs</code>, <code>run_tests</code>. Eight tools, all deterministic, with file:line evidence.</p></li>
+      <li class="step"><span class="step-k">Custom mode + skill</span><h3>Bob follows a protocol</h3><p>The BlastRadius Reviewer stops and asks a human when the score passes 70 or a caller was left behind. It never edits app code without a yes.</p></li>
+      <li class="step"><span class="step-k">Parallel subagents</span><h3>One reviewer per subsystem</h3><p>Bob sends a subagent into each affected subsystem. Each one reads that subsystem's ADRs and writes one regression test.</p></li>
+      <li class="step"><span class="step-k">Executed tests</span><h3>Proof, not opinions</h3><p>Tests run through vitest against a real in-memory database. A red test is a finding. Bob proposes the fix and reruns the test until it's green.</p></li>
+    </ol>
+    <div class="term" aria-label="Example test run">
+      <div class="term-bar"><i></i><i></i><i></i><span>run_tests · pr-3-task-archiving</span></div>
+<pre><span class="t-dim">$</span> npx vitest run src/__regression__/comments-pr-3-task-archiving.test.ts
+<span class="t-red"> ×</span> lets the author, a workspace member, edit their comment
+<span class="t-red">   → expected 403 to be 200</span>
+<span class="t-dim"># Bob: route.ts:18 still calls getWorkspaceMember(workspaceId, user.id)</span>
+<span class="t-dim"># fix approved, rerun</span>
+<span class="t-green"> ✓</span> lets the author, a workspace member, edit their comment <span class="t-dim">15ms</span></pre>
+    </div>
+  </div>
+</section>
+
+<section class="results" id="results">
+  <p class="eyebrow">Measured on three seeded PRs</p>
+  <h2 class="display-sm">The diff shows a little. <em>The radius shows the rest.</em></h2>
+  <div class="table-wrap">
+    <table class="results-table" id="results-table">
+      <thead><tr><th>PR</th><th class="n">Files in diff</th><th class="n">Files in radius</th><th class="n">Dependents</th><th class="n">Subsystems</th><th class="n">Score</th><th class="n">Time</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="muted small">Numbers come from <code>scripts/export_site_data.py</code> running the engine on <code>demo-workspace/pulse</code>. Rerun it and you get the same numbers.</p>
+</section>
+
+<section class="closing">
+  <h2 class="display">Review what it <em>breaks.</em></h2>
+  <p class="lede">Clone the repo, run <code>./scripts/seed_demo.sh</code>, open it in Bob IDE, and switch to the BlastRadius Reviewer mode.</p>
+  <div class="hero-cta">
+    <a class="btn btn-lav btn-lg" id="repo-cta" href="https://github.com/">Get the code</a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <span>BlastRadius · MIT License · Built for the IBM Bob 2.0 Hackathon on lablab.ai</span>
+  <span>Pulse is our own sample app. No user data.</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
